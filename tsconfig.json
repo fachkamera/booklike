@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "lib": ["ES2021", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noUnusedLocals": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "types": ["chrome-types"]
+  },
+  "include": ["src"]
+}

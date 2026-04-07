@@ -1,0 +1,14 @@
+<svg width="128" height="128" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @keyframes bl-bar { 0%,100% { fill:#facc15 } 50% { fill:#fff } }
+    @keyframes bl-c1  { 0%,100% { transform:scale(1); fill:#fff } 50% { transform:scale(.86); fill:#facc15 } }
+    @keyframes bl-c2  { 0%,100% { transform:scale(1); fill:#fff } 50% { transform:scale(.79); fill:#facc15 } }
+    .bl-bar { animation: bl-bar 2s ease-in-out infinite; }
+    .bl-c1  { transform-origin: 44px 29px; animation: bl-c1 1.2s cubic-bezier(.4,0,.2,1) infinite; }
+    .bl-c2  { transform-origin: 46px 51px; animation: bl-c2 1.2s cubic-bezier(.4,0,.2,1) infinite .4s; animation-fill-mode: backwards; }
+  </style>
+  <rect width="80" height="80" rx="16" fill="#1a1a1a"/>
+  <rect x="24" y="16" width="6" height="48" rx="3" class="bl-bar"/>
+  <circle cx="44" cy="29" r="11" class="bl-c1"/>
+  <circle cx="46" cy="51" r="13" class="bl-c2"/>
+</svg>

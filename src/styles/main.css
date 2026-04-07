@@ -1,0 +1,76 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+@import './fonts.css';
+@import './easings.css';
+
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant display-dark {
+  @media not print {
+    &:where(.display-dark, .display-dark *) {
+      @slot;
+    }
+  }
+}
+@custom-variant high-contrast (&:where(.high-contrast, .high-contrast *));
+@custom-variant focus-visible-within (&:has(:focus-visible));
+
+@theme {
+  --font-inter: 'Inter', Georgia, sans-serif;
+  --font-garamond: 'EB Garamond', Georgia, serif;
+  --font-spectral: 'Spectral', Georgia, serif;
+  --font-literata: 'Literata', Georgia, serif;
+  --color-stone-850: oklch(24.2% 0.0065 45.17);
+  --shadow-bevel: 0 1px 0 color-mix(in oklab, var(--color-stone-100) 16%, transparent) inset, 0 1px 2px black;
+}
+
+@utility font-garamond {
+  font-family: var(--font-garamond);
+  font-size-adjust: 0.51;
+}
+
+@utility font-spectral {
+  font-family: var(--font-spectral);
+  font-size-adjust: 0.5;
+}
+
+#display ::selection {
+  background: var(--color-yellow-400);
+  color: var(--color-stone-900);
+}
+
+/* Dict loader dots inherit reading surface text color */
+.dict-loader {
+  color: var(--color-stone-900);
+}
+.display-dark .dict-loader {
+  color: var(--color-white);
+}
+
+@page {
+  margin: 2cm;
+}
+
+/* Overflow tables hidden by pagination measure() */
+table[data-booklike-overflow] {
+  display: none;
+}
+.booklike-table-placeholder {
+  display: none;
+  font-size: 0.8em;
+  text-align: center;
+  font-style: italic;
+}
+table[data-booklike-overflow] + .booklike-table-placeholder {
+  display: block;
+}
+
+/* Disable typographic quotes injected by @tailwindcss/typography */
+.prose :where(blockquote p:first-of-type)::before {
+  content: none;
+}
+.prose :where(blockquote p:last-of-type)::after {
+  content: none;
+}
+.prose p[data-booklike-small] {
+  line-height: 1.5;
+}

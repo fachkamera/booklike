@@ -1,0 +1,6 @@
+Spectral - Copyright 2017 The Spectral Project Authors (https://github.com/productiontype/Spectral)
+Literata - Copyright 2017 The Literata Project Authors (https://github.com/googlefonts/literata)
+EB Garamond - Copyright 2017 The EB Garamond Project Authors (https://github.com/octaviopardo/EBGaramond12)
+Inter - Copyright 2020 The Inter Project Authors (https://github.com/rsms/inter)
+
+All fonts are licensed under the SIL Open Font License, Version 1.1 - https://openfontlicense.org

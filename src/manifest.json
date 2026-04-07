@@ -1,0 +1,74 @@
+{
+  "manifest_version": 3,
+  "minimum_chrome_version": "114",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "booklike@booklike.app",
+      "strict_min_version": "128.0"
+    }
+  },
+  "name": "BookLike",
+  "version": "1.0.0",
+  "description": "Turn any article into a clean, book-like reader experience. Distraction-free, paginated, with typography you can make your own.",
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Alt+Shift+B"
+      },
+      "description": "Activate BookLike"
+    }
+  },
+  "permissions": ["activeTab", "scripting", "storage", "contextMenus"],
+  "host_permissions": ["https://api.booklike.app/*", "https://api.dictionaryapi.dev/*"],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "background": {
+    "service_worker": "background.js",
+    "scripts": ["background.js"]
+  },
+  "action": {
+    "default_title": "Toggle BookLike",
+    "default_icon": {
+      "16": "icons/toolbar-icon-16.png",
+      "24": "icons/toolbar-icon-24.png",
+      "32": "icons/toolbar-icon-32.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "reader.html",
+        "reader.css",
+        "icons/toolbar-icon-32.png",
+        "fonts/literata-400.woff2",
+        "fonts/literata-400-italic.woff2",
+        "fonts/literata-700.woff2",
+        "fonts/literata-700-italic.woff2",
+        "fonts/eb-garamond-400.woff2",
+        "fonts/eb-garamond-400-italic.woff2",
+        "fonts/eb-garamond-700.woff2",
+        "fonts/eb-garamond-700-italic.woff2",
+        "fonts/inter-400.woff2",
+        "fonts/inter-400-italic.woff2",
+        "fonts/inter-700.woff2",
+        "fonts/inter-700-italic.woff2",
+        "fonts/spectral-400.woff2",
+        "fonts/spectral-400-italic.woff2",
+        "fonts/spectral-700.woff2",
+        "fonts/spectral-700-italic.woff2"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
