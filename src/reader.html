@@ -9,28 +9,22 @@
     <title>BookLike</title>
   </head>
   <body class="bg-stone-200 text-base! dark:bg-stone-900">
-    <div id="bookFrame" class="fixed inset-0 flex items-center print:static print:block">
+    <div id="bookFrame" class="fixed inset-0 flex items-center">
       <div
         id="bezel"
-        class="display-dark:before:shadow-[0_0_24px_-2px_oklch(92.4%_0.12_95.746/0.11)] display-dark:high-contrast:before:bg-stone-900 dark:display-dark:high-contrast:before:bg-stone-950 relative mx-auto aspect-3/4 max-h-[calc(100vh-5rem)] w-full max-w-xl before:absolute before:-top-8 before:-left-8 before:-z-10 before:h-[calc(100%+4rem)] before:w-[calc(100%+4rem)] before:rounded-3xl before:bg-black before:shadow-[0_0_24px_-2px_oklch(92.4%_0.12_95.746/0.17)] print:static print:aspect-auto print:max-h-none print:max-w-none print:before:hidden"
+        class="display-dark:before:shadow-[0_0_24px_-2px_oklch(92.4%_0.12_95.746/0.11)] display-dark:high-contrast:before:bg-stone-900 dark:display-dark:high-contrast:before:bg-stone-950 relative mx-auto aspect-3/4 max-h-[calc(100vh-5rem)] w-full max-w-xl before:absolute before:-top-8 before:-left-8 before:-z-10 before:h-[calc(100%+4rem)] before:w-[calc(100%+4rem)] before:rounded-3xl before:bg-black before:shadow-[0_0_24px_-2px_oklch(92.4%_0.12_95.746/0.17)]"
       >
         <div
           id="display"
-          class="prose font-spectral prose-h5:text-[1em] prose-a:[font-weight:inherit] prose-h6:text-[1em] prose-h4:text-[1em] prose-h3:text-[1.2em] prose-h2:text-[1.4em] prose-headings:text-balance prose-li:marker:text-inherit prose-lg prose-img:select-none prose-img:pointer-events-none prose-figcaption:text-inherit prose-figcaption:text-[0.75em] prose-h1:text-[1.8em] prose-headings:hyphens-none prose-blockquote:border-s-inherit prose-headings:font-bold prose-headings:break-inside-avoid prose-headings:break-after-avoid prose-code:before:content-none prose-code:after:content-none prose-code:bg-transparent prose-code:font-normal prose-pre:whitespace-pre-wrap prose-pre:wrap-anywhere prose-pre:overflow-x-clip prose-pre:bg-transparent prose-pre:rounded-none prose-pre:border-l-4 prose-pre:text-inherit prose-pre:pl-4.5 prose-pre:py-0 prose-figure:break-inside-avoid prose-table:break-inside-avoid prose-blockquote:break-inside-avoid prose-figcaption:mt-[.25em] prose-h1:leading-[1.3333333] print:prose-a:no-underline high-contrast:bg-white display-dark:prose-invert display-dark:text-white display-dark:bg-neutral-900 display-dark:high-contrast:bg-black absolute inset-0 max-w-none overflow-y-hidden bg-neutral-100 text-black print:static print:h-auto print:overflow-visible print:bg-white! print:text-black! [&_small]:text-[0.75em]"
+          class="prose font-spectral prose-h5:text-[1em] prose-a:[font-weight:inherit] prose-h6:text-[1em] prose-h4:text-[1em] prose-h3:text-[1.2em] prose-h2:text-[1.4em] prose-headings:text-balance prose-li:marker:text-inherit prose-lg prose-img:select-none prose-img:pointer-events-none prose-figcaption:text-inherit prose-figcaption:text-[0.75em] prose-h1:text-[1.8em] prose-headings:hyphens-none prose-blockquote:border-s-inherit prose-headings:font-bold prose-headings:break-inside-avoid prose-headings:break-after-avoid prose-code:before:content-none prose-code:after:content-none prose-code:bg-transparent prose-code:font-normal prose-pre:whitespace-pre-wrap prose-pre:wrap-anywhere prose-pre:overflow-x-clip prose-pre:bg-transparent prose-pre:rounded-none prose-pre:border-l-4 prose-pre:text-inherit prose-pre:pl-4.5 prose-pre:py-0 prose-figure:break-inside-avoid prose-table:break-inside-avoid prose-blockquote:break-inside-avoid prose-figcaption:mt-[.25em] prose-h1:leading-[1.3333333] print:prose-a:no-underline high-contrast:bg-white display-dark:prose-invert display-dark:text-white display-dark:bg-neutral-900 display-dark:high-contrast:bg-black absolute inset-0 max-w-none overflow-y-hidden bg-neutral-100 text-black print:overflow-visible print:bg-white! print:text-black! [&_small]:text-[0.75em]"
         >
-          <div class="absolute inset-0 print:static">
-            <div
-              id="contentWrapper"
-              class="absolute inset-y-8 overflow-hidden print:static print:overflow-visible"
-            >
-              <div
-                id="contentContainer"
-                class="h-full print:h-auto! print:transform-none! print:gap-x-[unset]! print:[column-count:unset]! print:[column-width:unset]!"
-              ></div>
+          <div class="absolute inset-0">
+            <div id="contentWrapper" class="absolute inset-y-8 overflow-hidden">
+              <div id="contentContainer" class="h-full"></div>
             </div>
             <div
               id="pageIndicator"
-              class="absolute bottom-1 flex justify-between font-sans text-[0.625rem] tracking-normal tabular-nums select-none print:hidden"
+              class="absolute bottom-1 flex justify-between font-sans text-[0.625rem] tracking-normal tabular-nums select-none"
             >
               <div id="pageNum" class="opacity-60">Page 1 of 1</div>
               <div id="pageTitle" class="max-w-[61.8%] truncate opacity-60"></div>
@@ -42,7 +36,7 @@
 
     <nav
       id="menu"
-      class="fixed top-4 left-4 z-50 flex cursor-grab flex-col overflow-hidden rounded-full leading-loose text-black dark:text-white print:hidden"
+      class="fixed top-4 left-4 z-50 flex cursor-grab flex-col overflow-hidden rounded-full leading-loose text-black dark:text-white"
     >
       <div id="menuTopBorder" aria-hidden="true" class="absolute inset-x-0 top-0 z-10 h-9 overflow-hidden">
         <div class="size-18 rounded-full border border-stone-200 dark:border-stone-900"></div>
