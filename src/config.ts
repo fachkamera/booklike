@@ -52,6 +52,9 @@ export const EDGE_COMPARISON_CHARS = 20
 /** Max number of leading paragraphs to check for title/subtitle repetition. */
 export const LEADING_PARA_CHECK_LIMIT = 3
 
+/** Max ratio of paragraph length to reference (title/subtitle) length for word-overlap redundancy checks. */
+export const REDUNDANT_PARA_LENGTH_RATIO = 2
+
 /** Words with length ≤ this value are excluded from word overlap calculations (stop words). */
 export const OVERLAP_WORD_LENGTH_THRESHOLD = 2
 

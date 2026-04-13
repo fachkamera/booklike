@@ -4,6 +4,7 @@ import {
   VARIANT_HEADING_OVERLAP_THRESHOLD,
   EDGE_COMPARISON_CHARS,
   LEADING_PARA_CHECK_LIMIT,
+  REDUNDANT_PARA_LENGTH_RATIO,
   OVERLAP_WORD_LENGTH_THRESHOLD,
   META_TEXT_MAX_CHARS,
   SINGLE_LINK_PARA_MAX_NONLINK_CHARS,
@@ -105,14 +106,20 @@ export function removeRedundantHeading(
     if (p.querySelector('img, figure, a')) break
     const text = p.textContent?.trim() ?? ''
     if (!text) continue
-    if (wordOverlap(text, title) >= REDUNDANT_HEADING_OVERLAP_THRESHOLD || shareEdge(text, title)) {
+    const titleMatch =
+      shareEdge(text, title) ||
+      (text.length <= title.length * REDUNDANT_PARA_LENGTH_RATIO &&
+        wordOverlap(text, title) >= REDUNDANT_HEADING_OVERLAP_THRESHOLD)
+    if (titleMatch) {
       p.remove()
       continue
     }
-    if (
+    const subtitleMatch =
       subtitle &&
-      (wordOverlap(text, subtitle) >= REDUNDANT_HEADING_OVERLAP_THRESHOLD || shareEdge(text, subtitle))
-    ) {
+      (shareEdge(text, subtitle) ||
+        (text.length <= subtitle.length * REDUNDANT_PARA_LENGTH_RATIO &&
+          wordOverlap(text, subtitle) >= REDUNDANT_HEADING_OVERLAP_THRESHOLD))
+    if (subtitleMatch) {
       p.remove()
       continue
     }
