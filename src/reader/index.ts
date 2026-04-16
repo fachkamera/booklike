@@ -316,7 +316,7 @@ function bindKeyboardNavigation(
       else if (panels.typography.isOpen()) panels.typography.close()
       else if (panels.settings.isOpen()) panels.settings.close()
       else if (panels.theme.isOpen()) panels.theme.close()
-      else if (panels.share.isOpen()) panels.share.close()
+      else if (panels.exporter.isOpen()) panels.exporter.close()
     }
   })
 }
@@ -454,8 +454,8 @@ export async function launchReader(
   const btnTypography = doc.getElementById('btnTypography')!
   const btnSettings = doc.getElementById('btnSettings')!
   const btnThemeToggle = doc.getElementById('btnThemeToggle')!
-  const btnShare = doc.getElementById('btnShare')!
-  const sharePanel = doc.getElementById('sharePanel')!
+  const btnExport = doc.getElementById('btnExport')!
+  const exportPanel = doc.getElementById('exportPanel')!
   const btnCollapse = doc.getElementById('btnCollapse')!
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)')
 
@@ -506,11 +506,11 @@ export async function launchReader(
     typographyPanel,
     settingsPanel,
     themePanel,
-    sharePanel,
+    exportPanel,
     btnTypography,
     btnSettings,
     btnThemeToggle,
-    btnShare,
+    btnExport,
     btnCollapse,
     onClosePopover: () => dict.close(),
   })
@@ -628,7 +628,7 @@ export async function launchReader(
   }
 
   doc.getElementById('btnPrint')?.addEventListener('click', () => {
-    panels.share.close()
+    panels.exporter.close()
     triggerPrint()
   })
 
@@ -789,7 +789,7 @@ export async function launchReader(
           updateEpubImagesUI()
         }
         setEpubState('idle')
-        panels.share.close()
+        panels.exporter.close()
       } catch {
         setEpubState('error')
       }
