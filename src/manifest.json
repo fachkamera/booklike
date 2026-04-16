@@ -7,9 +7,9 @@
       "strict_min_version": "128.0"
     }
   },
-  "name": "BookLike",
+  "name": "BookLike Reader",
   "version": "1.0.0",
-  "description": "Turn any article into a clean, book-like reader experience. Distraction-free, paginated, with typography you can make your own.",
+  "description": "Reader mode with book-like pagination. Dark mode, dictionary, epub export.",
   "commands": {
     "_execute_action": {
       "suggested_key": {
