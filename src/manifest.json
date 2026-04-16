@@ -8,7 +8,7 @@
     }
   },
   "name": "BookLike Reader",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Reader mode with book-like pagination. Dark mode, dictionary, epub export.",
   "commands": {
     "_execute_action": {
