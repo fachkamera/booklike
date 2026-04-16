@@ -128,11 +128,11 @@ export function createPanelManager(deps: {
   typographyPanel: HTMLElement
   settingsPanel: HTMLElement
   themePanel: HTMLElement
-  sharePanel: HTMLElement
+  exportPanel: HTMLElement
   btnTypography: HTMLElement
   btnSettings: HTMLElement
   btnThemeToggle: HTMLElement
-  btnShare: HTMLElement
+  btnExport: HTMLElement
   btnCollapse: HTMLElement
   onClosePopover: () => void
 }) {
@@ -146,11 +146,11 @@ export function createPanelManager(deps: {
     typographyPanel,
     settingsPanel,
     themePanel,
-    sharePanel,
+    exportPanel,
     btnTypography,
     btnSettings,
     btnThemeToggle,
-    btnShare,
+    btnExport,
     btnCollapse,
     onClosePopover,
   } = deps
@@ -161,22 +161,22 @@ export function createPanelManager(deps: {
   const typography = createPanel(typographyPanel, btnTypography, menu, iframe, () => {
     settings.close()
     theme.close()
-    share.close()
+    exporter.close()
     onClosePopover()
   })
   const settings = createPanel(settingsPanel, btnSettings, menu, iframe, () => {
     typography.close()
     theme.close()
-    share.close()
+    exporter.close()
     onClosePopover()
   })
   const theme = createPanel(themePanel, btnThemeToggle, menu, iframe, () => {
     typography.close()
     settings.close()
-    share.close()
+    exporter.close()
     onClosePopover()
   })
-  const share = createPanel(sharePanel, btnShare, menu, iframe, () => {
+  const exporter = createPanel(exportPanel, btnExport, menu, iframe, () => {
     typography.close()
     settings.close()
     theme.close()
@@ -193,7 +193,7 @@ export function createPanelManager(deps: {
   bindPanelToggle(btnTypography, typography)
   bindPanelToggle(btnSettings, settings)
   bindPanelToggle(btnThemeToggle, theme)
-  bindPanelToggle(btnShare, share)
+  bindPanelToggle(btnExport, exporter)
 
   let isCollapsed = false
   const collapsePaths = collapseIcon.querySelectorAll('path')
@@ -208,7 +208,7 @@ export function createPanelManager(deps: {
     typography.close()
     settings.close()
     theme.close()
-    share.close()
+    exporter.close()
     isCollapsed = !isCollapsed
     if (!isCollapsed) menu.classList.remove('h-[4.5rem]')
     if (isCollapsed) collapsable.setAttribute('inert', '')
@@ -266,7 +266,7 @@ export function createPanelManager(deps: {
     if (typography.isOpen()) typography.position()
     if (settings.isOpen()) settings.position()
     if (theme.isOpen()) theme.position()
-    if (share.isOpen()) share.position()
+    if (exporter.isOpen()) exporter.position()
   })
 
   doc.addEventListener('mouseup', () => {
@@ -286,7 +286,7 @@ export function createPanelManager(deps: {
     { panel: typography, el: typographyPanel },
     { panel: settings, el: settingsPanel },
     { panel: theme, el: themePanel },
-    { panel: share, el: sharePanel },
+    { panel: exporter, el: exportPanel },
   ]
 
   doc.addEventListener(
@@ -380,8 +380,8 @@ export function createPanelManager(deps: {
     typography.close()
     settings.close()
     theme.close()
-    share.close()
+    exporter.close()
   }
 
-  return { typography, settings, theme, share, closeAll }
+  return { typography, settings, theme, exporter, closeAll }
 }
