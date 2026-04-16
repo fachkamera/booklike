@@ -1,7 +1,7 @@
 {
   "name": "booklike",
   "version": "1.0.0",
-  "description": "Chrome extension to read web articles like a book — paginated, typeset, distraction-free.",
+  "description": "Reader mode with book-like pagination. Dark mode, dictionary, epub export.",
   "scripts": {
     "dev": "node scripts/build.mjs --watch",
     "build": "node scripts/build.mjs --prod",
