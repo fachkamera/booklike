@@ -38,7 +38,64 @@ export function postprocess(node: Element): void {
   unwrapContainers(node)
   removeConsecutiveDuplicates(node)
   removeEmptyParagraphs(node)
+  removeBrsBetweenBlocks(node)
   stampSmallOnlyParagraphs(node)
+}
+
+const BLOCK_TAGS = new Set([
+  'ADDRESS',
+  'ARTICLE',
+  'ASIDE',
+  'BLOCKQUOTE',
+  'DIV',
+  'DL',
+  'FIGCAPTION',
+  'FIGURE',
+  'FOOTER',
+  'H1',
+  'H2',
+  'H3',
+  'H4',
+  'H5',
+  'H6',
+  'HEADER',
+  'HR',
+  'LI',
+  'MAIN',
+  'OL',
+  'P',
+  'PRE',
+  'SECTION',
+  'TABLE',
+  'UL',
+])
+
+function meaningfulSibling(br: Node, dir: 'prev' | 'next'): Node | null {
+  let n: Node | null = dir === 'prev' ? br.previousSibling : br.nextSibling
+  while (n) {
+    if (n.nodeType === Node.TEXT_NODE) {
+      if ((n.textContent ?? '').trim()) return n
+    } else {
+      return n
+    }
+    n = dir === 'prev' ? n.previousSibling : n.nextSibling
+  }
+  return null
+}
+
+function removeBrsBetweenBlocks(node: Element): void {
+  node.querySelectorAll('br').forEach((br) => {
+    if (br.closest('figcaption')) return
+    const prev = meaningfulSibling(br, 'prev')
+    const next = meaningfulSibling(br, 'next')
+    const prevIsBlock = prev instanceof Element && BLOCK_TAGS.has(prev.tagName)
+    const nextIsBlock = next instanceof Element && BLOCK_TAGS.has(next.tagName)
+    const parent = br.parentElement
+    const parentIsBlock = !!parent && BLOCK_TAGS.has(parent.tagName) && parent.tagName !== 'P'
+    if ((prevIsBlock || !prev) && (nextIsBlock || !next) && (prevIsBlock || nextIsBlock || parentIsBlock)) {
+      br.remove()
+    }
+  })
 }
 
 export function removeRedundantHeading(
