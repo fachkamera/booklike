@@ -387,24 +387,35 @@ function flattenFigcaptions(node: Element): void {
 function wrapOrphanedFigureCaptions(node: Element): void {
   node.querySelectorAll('figure').forEach((fig) => {
     const searchRoot = fig.querySelector(':scope > a') ?? fig
-    const textNodes = Array.from(searchRoot.childNodes).filter(
-      (n): n is Text => n.nodeType === Node.TEXT_NODE && !!n.textContent?.trim(),
-    )
-    if (!textNodes.length) return
-    const text = textNodes
-      .map((n) => n.textContent ?? '')
-      .join('')
-      .replace(/\s+/g, ' ')
-      .trim()
-    textNodes.forEach((n) => n.remove())
-    const fc = fig.querySelector('figcaption')
-    if (fc) {
+    const parts: string[] = []
+    const toRemove: ChildNode[] = []
+    for (const child of Array.from(searchRoot.childNodes)) {
+      if (child.nodeType === Node.TEXT_NODE) {
+        const t = child.textContent?.trim()
+        if (t) {
+          parts.push(t)
+          toRemove.push(child)
+        }
+      } else if (child instanceof Element && (child.tagName === 'P' || child.tagName === 'DIV')) {
+        if (child.querySelector('img, picture, figure, video')) continue
+        const t = (child.textContent ?? '').replace(/\s+/g, ' ').trim()
+        if (t) {
+          parts.push(t)
+          toRemove.push(child)
+        }
+      }
+    }
+    if (!parts.length) return
+    toRemove.forEach((n) => n.remove())
+    let fc = fig.querySelector('figcaption')
+    if (!fc) {
+      fc = node.ownerDocument.createElement('figcaption')
+      fc.textContent = parts.shift() ?? ''
+      fig.appendChild(fc)
+    }
+    for (const part of parts) {
       fc.appendChild(node.ownerDocument.createElement('br'))
-      fc.appendChild(node.ownerDocument.createTextNode(text))
-    } else {
-      const newFc = node.ownerDocument.createElement('figcaption')
-      newFc.textContent = text
-      fig.appendChild(newFc)
+      fc.appendChild(node.ownerDocument.createTextNode(part))
     }
   })
 }
