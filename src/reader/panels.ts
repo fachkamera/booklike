@@ -200,6 +200,31 @@ export function createPanelManager(deps: {
   const CHEVRON_D = ['M4.5 18.75 l7.5 -7.5 l7.5 7.5', 'M4.5 12.75 l7.5 -7.5 l7.5 7.5']
   const HAMBURGER_D = ['M4.5 15 l7.5 0 l7.5 0', 'M4.5 9 l7.5 0 l7.5 0']
 
+  function setCollapsed(next: boolean, animate: boolean): void {
+    if (next === isCollapsed) return
+    isCollapsed = next
+    if (!animate) {
+      collapsable.style.transition = 'none'
+      menuBg.style.transition = 'none'
+    }
+    if (!next) menu.classList.remove('h-[4.5rem]')
+    if (next) collapsable.setAttribute('inert', '')
+    else collapsable.removeAttribute('inert')
+    collapsable.classList.toggle('-translate-y-full', next)
+    collapsable.classList.toggle('opacity-0', next)
+    collapsable.classList.toggle('blur-xs', next)
+    menuBg.classList.toggle('-translate-y-[calc(6*3.5rem)]', next)
+    const paths = next ? HAMBURGER_D : CHEVRON_D
+    collapsePaths.forEach((p, i) => p.setAttribute('d', paths[i]))
+    btnCollapse.dataset.tooltip = next ? 'Expand menu' : 'Collapse menu'
+    if (!animate) {
+      if (next) menu.classList.add('h-[4.5rem]')
+      void collapsable.offsetWidth
+      collapsable.style.transition = ''
+      menuBg.style.transition = ''
+    }
+  }
+
   collapsable.addEventListener('transitionend', () => {
     menu.classList.toggle('h-[4.5rem]', isCollapsed)
   })
@@ -209,31 +234,24 @@ export function createPanelManager(deps: {
     settings.close()
     theme.close()
     exporter.close()
-    isCollapsed = !isCollapsed
-    if (!isCollapsed) menu.classList.remove('h-[4.5rem]')
-    if (isCollapsed) collapsable.setAttribute('inert', '')
-    else collapsable.removeAttribute('inert')
-    collapsable.classList.toggle('-translate-y-full', isCollapsed)
-    collapsable.classList.toggle('opacity-0', isCollapsed)
-    collapsable.classList.toggle('blur-xs', isCollapsed)
-    menuBg.classList.toggle('-translate-y-[calc(6*3.5rem)]', isCollapsed)
-    const paths = isCollapsed ? HAMBURGER_D : CHEVRON_D
-    collapsePaths.forEach((p, i) => p.setAttribute('d', paths[i]))
-    btnCollapse.dataset.tooltip = isCollapsed ? 'Expand menu' : 'Collapse menu'
+    setCollapsed(!isCollapsed, true)
+    void chrome.storage.local.set({ 'booklike-menu-collapsed': isCollapsed })
   })
 
   chrome.storage.local.get(
-    'booklike-menu-pos',
-    (result: { 'booklike-menu-pos'?: { x: number; y: number } }) => {
+    ['booklike-menu-pos', 'booklike-menu-collapsed'],
+    (result: { 'booklike-menu-pos'?: { x: number; y: number }; 'booklike-menu-collapsed'?: boolean }) => {
       const pos = result['booklike-menu-pos']
-      if (!pos) return
-      const { x, y } = pos
-      const { innerWidth, innerHeight } = contentWindow
-      const pad = 16
-      const px = Math.max(pad, Math.min(x * innerWidth, innerWidth - menu.offsetWidth - pad))
-      const py = Math.max(pad, Math.min(y * innerHeight, innerHeight - menu.offsetHeight - pad))
-      menu.style.left = px + 'px'
-      menu.style.top = py + 'px'
+      if (pos) {
+        const { x, y } = pos
+        const { innerWidth, innerHeight } = contentWindow
+        const pad = 16
+        const px = Math.max(pad, Math.min(x * innerWidth, innerWidth - menu.offsetWidth - pad))
+        const py = Math.max(pad, Math.min(y * innerHeight, innerHeight - menu.offsetHeight - pad))
+        menu.style.left = px + 'px'
+        menu.style.top = py + 'px'
+      }
+      if (result['booklike-menu-collapsed']) setCollapsed(true, false)
     },
   )
 
