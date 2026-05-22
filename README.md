@@ -18,7 +18,7 @@ Activate on any web article via the toolbar icon, keyboard shortcut, or right-cl
 - Integrated dictionary (EN only)
 - Private by design: no background activity, no tracking, minimal permissions
 
-> **Note:** EPUB export uses a hosted API that is not part of this open source release.
+> **Note:** EPUB creation happens on-device. When image embedding is enabled, an API hosted on `booklike.app` is used for image fetching and re-encoding to handle CORS and image formats not supported by the EPUB spec.
 
 ## Building from source
 
