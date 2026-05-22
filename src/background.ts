@@ -3,7 +3,7 @@ import { loadPrefs, PREFS_KEY, type BooklikePrefs } from './prefs'
 import { type EpubImage } from './epub'
 import { READER_ACTIVATION_GRACE_MS } from './config'
 
-const PROXY_IMAGE_API = __PROXY_IMAGE_API__
+const PROXY_IMAGE_API = 'https://api.booklike.app/v1/images/fetch'
 const IMG_SRC = /<img\b[^>]*?\ssrc="([^"]+)"/gi
 
 type IconPaths = Record<number, string>

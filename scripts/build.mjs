@@ -1,12 +1,6 @@
 import { build, context } from 'esbuild'
 import { cpSync, rmSync, watch, readFileSync, writeFileSync } from 'fs'
 import { spawn } from 'child_process'
-import { config } from 'dotenv'
-import { resolve, dirname } from 'path'
-import { fileURLToPath } from 'url'
-
-const __dirname = dirname(fileURLToPath(import.meta.url))
-config({ path: resolve(__dirname, '../.env') })
 
 const isProd = process.argv.includes('--prod')
 const isFirefox = process.argv.includes('--firefox')
@@ -37,7 +31,6 @@ const sharedOptions = {
   drop: isProd ? ['console'] : [],
   define: {
     'process.env.NODE_ENV': JSON.stringify(isProd ? 'production' : 'development'),
-    __PROXY_IMAGE_API__: JSON.stringify(process.env.PROXY_IMAGE_API ?? ''),
   },
 }
 
