@@ -4,6 +4,10 @@ A browser extension to turn any article into a book-like reading experience.
 
 [![BookLike Reader, before and after](assets/booklike-before-after.avif)](https://booklike.app)
 
+## Install
+
+Available on the [Chrome Web Store](https://chromewebstore.google.com/detail/booklike-reader/mhiinmnbbndkgjmcjeildbenndjhddlj).
+
 ## Usage
 
 Activate on any web article via the toolbar icon, keyboard shortcut, or right-click menu.
