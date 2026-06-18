@@ -465,13 +465,12 @@ const STUB_BY_LANG: Record<string, string[]> = {
 
 export function removeStubElements(doc: Document): void {
   const lang = doc.documentElement.lang?.split('-')[0].toLowerCase() ?? ''
-  const langTerms = STUB_BY_LANG[lang] ?? []
-  const terms = [...STUB_EN, ...langTerms]
+  const terms = ['[edit]', 'updated', 'and', 'by', 'on', ...STUB_EN, ...(STUB_BY_LANG[lang] ?? [])]
   const stubPattern = new RegExp(
-    `^(\\[edit\\]|updated|and|by|on|${terms.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})$`,
+    `^(${terms.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})$`,
     'i',
   )
-  doc.querySelectorAll('p, span, h2, h3, div').forEach((el) => {
+  doc.querySelectorAll('p, h2, h3, div').forEach((el) => {
     const t = el.textContent?.replace(/\u00A0/g, ' ').trim() ?? ''
     if (stubPattern.test(t)) el.remove()
   })
