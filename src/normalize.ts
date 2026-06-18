@@ -320,7 +320,14 @@ export function unwrapFontElements(doc: Document): void {
   doc.querySelectorAll('font').forEach((el) => el.replaceWith(...Array.from(el.childNodes)))
 }
 
-/** Strip aria-hidden from non-decorative elements so Readability doesn't discard their text content. */
+export function unwrapPresentationalSpans(doc: Document): void {
+  doc.querySelectorAll('span').forEach((el) => {
+    if (el.id || el.hasAttribute('lang') || el.hasAttribute('dir')) return
+    if (el.getAttributeNames().some((n) => n.startsWith('data-booklike'))) return
+    el.replaceWith(...Array.from(el.childNodes))
+  })
+}
+
 export function stripAriaHidden(doc: Document): void {
   doc
     .querySelectorAll('[aria-hidden="true"]:not(svg):not(img)')

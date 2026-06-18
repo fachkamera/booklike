@@ -246,7 +246,7 @@ function stripJavascriptHrefs(node: Element): void {
   })
 }
 
-const ALLOWED_ATTRS: Partial<Record<string, string[]>> = {
+const ALLOWED_ATTRS: Record<string, string[]> = {
   a: ['href'],
   img: ['src', 'alt', 'width', 'height'],
   time: ['datetime'],

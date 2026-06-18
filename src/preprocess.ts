@@ -43,6 +43,7 @@ import {
   unwrapDropcaps,
   unwrapMarkElements,
   unwrapFontElements,
+  unwrapPresentationalSpans,
   unwrapHgroups,
   unwrapNestedLists,
   stripHtmlComments,
@@ -115,6 +116,7 @@ export function preprocess(doc: Document): PreprocessResult {
   unwrapDropcaps(doc)
   unwrapMarkElements(doc)
   unwrapFontElements(doc)
+  unwrapPresentationalSpans(doc)
   unwrapHgroups(doc)
   unwrapNestedLists(doc)
   stripNextJsFillImages(doc)
