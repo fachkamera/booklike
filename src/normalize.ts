@@ -328,6 +328,15 @@ export function unwrapPresentationalSpans(doc: Document): void {
   })
 }
 
+export function stripRedundantDir(doc: Document): void {
+  doc.querySelectorAll('[dir]').forEach((el) => {
+    if ((el.getAttribute('dir') ?? '').trim().toLowerCase() !== 'ltr') return
+    const ancestor = el.parentElement?.closest('[dir]')
+    if ((ancestor?.getAttribute('dir') ?? '').trim().toLowerCase() === 'rtl') return
+    el.removeAttribute('dir')
+  })
+}
+
 export function stripAriaHidden(doc: Document): void {
   doc
     .querySelectorAll('[aria-hidden="true"]:not(svg):not(img)')
