@@ -421,8 +421,8 @@ export function removeStandalonePublicationDates(doc: Document): void {
       const hasElementSiblings = Array.from(parent.childNodes).some(
         (n) => n !== el && n.nodeType === Node.ELEMENT_NODE,
       )
-      if ((parent as Element).tagName === 'P' && !hasElementSiblings) {
-        ;(parent as Element).remove()
+      if (!hasElementSiblings && parent instanceof Element) {
+        parent.remove()
         return
       }
       const prev = el.previousSibling
