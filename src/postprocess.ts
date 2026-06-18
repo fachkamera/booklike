@@ -9,6 +9,7 @@ import {
   META_TEXT_MAX_CHARS,
   SINGLE_LINK_PARA_MAX_NONLINK_CHARS,
   DEDUP_ATTRIBUTION_MAX_CHARS,
+  FIGURE_LOOSE_TEXT_MIN_CHARS,
 } from './config'
 
 export function postprocess(node: Element): void {
@@ -395,17 +396,40 @@ const FIGCAPTION_INLINE_TAGS = new Set([
 ])
 
 function flattenFigcaptions(node: Element): void {
+  const doc = node.ownerDocument
   node.querySelectorAll('figcaption').forEach((fc) => {
-    const children = Array.from(fc.querySelectorAll(':scope > *'))
-    children.forEach((block, i) => {
-      const isBlock = !FIGCAPTION_INLINE_TAGS.has(block.tagName) || block.hasAttribute('data-booklike-block')
-      block.removeAttribute('data-booklike-block')
-      if (i > 0 && isBlock && children[i - 1].textContent?.trim())
-        block.before(node.ownerDocument.createElement('br'))
+    let prev: ChildNode | null = null
+    Array.from(fc.childNodes).forEach((cur) => {
+      const curText = cur.textContent ?? ''
+      if (!curText.trim()) return
+      if (cur.nodeType === Node.ELEMENT_NODE) (cur as Element).removeAttribute('data-booklike-block')
+      if (prev) {
+        const isBlock =
+          cur.nodeType === Node.ELEMENT_NODE &&
+          (!FIGCAPTION_INLINE_TAGS.has((cur as Element).tagName) ||
+            (cur as Element).hasAttribute('data-booklike-block'))
+        const glued = !/\s$/.test(prev.textContent ?? '') && !/^\s/.test(curText)
+        const chunkBoundary = cur.nodeType === Node.ELEMENT_NODE || prev.nodeType === Node.ELEMENT_NODE
+        if (isBlock || (glued && chunkBoundary)) cur.before(doc.createElement('br'))
+      }
+      prev = cur
     })
   })
-  node.querySelectorAll('figcaption p, figcaption div, figcaption span, figcaption small').forEach((el) => {
-    el.replaceWith(...Array.from(el.childNodes))
+  node
+    .querySelectorAll(
+      'figcaption p, figcaption div, figcaption span, figcaption small, figcaption b, figcaption strong',
+    )
+    .forEach((el) => {
+      el.replaceWith(...Array.from(el.childNodes))
+    })
+  node.querySelectorAll('figcaption').forEach((fc) => {
+    while (
+      fc.children.length === 1 &&
+      /^(?:EM|I)$/.test(fc.children[0].tagName) &&
+      (fc.textContent ?? '').trim() === (fc.children[0].textContent ?? '').trim()
+    ) {
+      fc.children[0].replaceWith(...Array.from(fc.children[0].childNodes))
+    }
   })
   node.querySelectorAll('figcaption').forEach((fc) => {
     fc.childNodes.forEach((n) => {
@@ -443,27 +467,28 @@ function flattenFigcaptions(node: Element): void {
 
 function wrapOrphanedFigureCaptions(node: Element): void {
   node.querySelectorAll('figure').forEach((fig) => {
-    const searchRoot = fig.querySelector(':scope > a') ?? fig
+    const a = fig.querySelector(':scope > a')
     const parts: string[] = []
     const toRemove: ChildNode[] = []
-    for (const child of Array.from(searchRoot.childNodes)) {
-      if (child.nodeType === Node.TEXT_NODE) {
-        const t = child.textContent?.trim()
-        if (t) {
-          parts.push(t)
+    for (const root of a ? [fig, a] : [fig]) {
+      for (const child of Array.from(root.childNodes)) {
+        if (child.nodeType === Node.TEXT_NODE) {
+          const t = child.textContent?.trim() ?? ''
+          if (!t) continue
           toRemove.push(child)
-        }
-      } else if (child instanceof Element && (child.tagName === 'P' || child.tagName === 'DIV')) {
-        if (child.querySelector('img, picture, figure, video')) continue
-        const t = (child.textContent ?? '').replace(/\s+/g, ' ').trim()
-        if (t) {
+          if (t.length >= FIGURE_LOOSE_TEXT_MIN_CHARS && /\p{L}/u.test(t)) parts.push(t)
+        } else if (child instanceof Element && (child.tagName === 'P' || child.tagName === 'DIV')) {
+          if (child.querySelector('img, picture, figure, video')) continue
+          const t = (child.textContent ?? '').replace(/\s+/g, ' ').trim()
+          if (!t) continue
           parts.push(t)
           toRemove.push(child)
         }
       }
     }
-    if (!parts.length) return
+    if (!toRemove.length) return
     toRemove.forEach((n) => n.remove())
+    if (!parts.length) return
     let fc = fig.querySelector('figcaption')
     if (!fc) {
       fc = node.ownerDocument.createElement('figcaption')

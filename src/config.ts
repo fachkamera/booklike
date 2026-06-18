@@ -37,6 +37,9 @@ export const SHARE_BYLINE_MAX_ANCESTOR_TEXT = 300
 /** Maximum text length for a rubric/kicker/eyebrow label element to be removed. */
 export const RUBRIC_MAX_TEXT_CHARS = 50
 
+/** Minimum length of loose text inside a figure (outside its caption) to be pulled into the caption rather than discarded. */
+export const FIGURE_LOOSE_TEXT_MIN_CHARS = 12
+
 /** Maximum non-link prose chars in a "Further Reading" / "See Also" sibling paragraph  */
 export const RELATED_SECTION_MAX_PROSE_CHARS = 50
 
