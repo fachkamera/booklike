@@ -170,6 +170,7 @@ export function removeKnownNonContent(doc: Document): void {
     '[class*="dateModified" i]',
     '[class*="date-modified" i]',
     '[data-timestamp]',
+    '[data-e2e*="-promo" i]',
   ]
   doc.querySelectorAll(selectors.join(',')).forEach((el) => {
     if (canRemoveSafely(el, doc)) el.remove()
