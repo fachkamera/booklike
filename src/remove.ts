@@ -31,6 +31,12 @@ export function removeNonContentElements(doc: Document): void {
   doc.querySelectorAll('address').forEach((el) => {
     if (canRemoveSafely(el, doc)) el.remove()
   })
+  doc.querySelectorAll('nav').forEach((nav) => {
+    if (!canRemoveSafely(nav, doc)) return
+    const h1 = nav.querySelector('h1')
+    if (h1) nav.parentElement?.insertBefore(h1, nav)
+    nav.remove()
+  })
 }
 
 export function removeHiddenElements(doc: Document): void {
@@ -172,9 +178,15 @@ export function removeKnownNonContent(doc: Document): void {
 }
 
 export function removeBreadcrumbs(doc: Document): void {
-  const hasBreadcrumbClass = (el: Element): boolean =>
-    /breadcrumb|crumb/i.test(el.className) ||
-    Array.from(el.querySelectorAll('[class]')).some((c) => /breadcrumb|crumb/i.test(c.className))
+  const hasBreadcrumbHint = (el: Element): boolean => {
+    const matches = (e: Element): boolean =>
+      /breadcrumb|crumb/i.test(e.className) ||
+      /breadcrumb|crumb/i.test(e.getAttribute('aria-label') ?? '') ||
+      /breadcrumb|crumb/i.test(e.getAttribute('data-testid') ?? '')
+    return (
+      matches(el) || Array.from(el.querySelectorAll('[class], [aria-label], [data-testid]')).some(matches)
+    )
+  }
 
   const isBreadcrumb = (el: Element, requireClassHint = false): boolean => {
     const links = el.querySelectorAll('a')
@@ -186,7 +198,7 @@ export function removeBreadcrumbs(doc: Document): void {
     if (!allShort) return false
     const textLen = el.textContent?.trim().length ?? 0
     if (textLen > links.length * BREADCRUMB_MAX_CONTAINER_TEXT_PER_LINK) return false
-    if (requireClassHint) return hasBreadcrumbClass(el)
+    if (requireClassHint) return hasBreadcrumbHint(el)
     return true
   }
 
@@ -194,25 +206,13 @@ export function removeBreadcrumbs(doc: Document): void {
   roots.forEach((root) => {
     const header = root.querySelector(':scope header')
     if (header)
-      header.querySelectorAll('ul, ol, nav').forEach((el) => {
+      header.querySelectorAll('ul, ol').forEach((el) => {
         if (isBreadcrumb(el)) el.remove()
       })
-
-    root.querySelectorAll('nav').forEach((nav) => {
-      if (isBreadcrumb(nav)) nav.remove()
-    })
 
     root.querySelectorAll('ul, ol').forEach((el) => {
       if (isBreadcrumb(el, true)) el.remove()
     })
-  })
-
-  doc.querySelectorAll('nav').forEach((nav) => {
-    if (roots.some((r) => r.contains(nav))) return
-    if (!isBreadcrumb(nav, true)) return
-    const h1 = nav.querySelector('h1')
-    if (h1) nav.parentElement?.insertBefore(h1, nav)
-    nav.remove()
   })
 }
 
