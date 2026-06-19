@@ -1,4 +1,4 @@
-import { stampContentWrappers, SECTION_STAMP } from './helpers'
+import { stampContentWrappers, SECTION_STAMP, READ_TIME } from './helpers'
 import {
   REDUNDANT_HEADING_OVERLAP_THRESHOLD,
   VARIANT_HEADING_OVERLAP_THRESHOLD,
@@ -513,7 +513,6 @@ function removeImageTitles(node: Element): void {
 
 const DATE_ONLY =
   /^\s*(?:updated?\s*:?\s+|published\s+(?:on\s+)?|modified\s*:?\s+|last\s+updated?\s*:?\s+)?(\d{4}[-/.]\d{1,2}[-/.]\d{1,2}|\d{1,2}[-/.]\d{1,2}[-/.]\d{2,4}|(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+\d{1,2},?\s+\d{2,4}|\d{1,2}\.?\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+\d{2,4})(?:(?:\s*,\s*|\s+at\s+|\s+)\d{1,2}:\d{2}(?:\s*[ap]\.?m\.?)?\s*[a-z]*)?\s*$/i
-const READ_TIME = /^\s*(?:\w+(?:\s+\w+){0,3}[:\s]+)?\d+\s*[-–]?\s*min\w*(?:\s+\w+(?:\s+\w+)?)?\s*\.?\s*$/i
 const DATE_LOOSE = /\b\d{1,2}[./]\d{1,2}[./]\d{2,4}\b|\b\d{4}-\d{2}-\d{2}\b/
 
 function isMetaText(text: string): boolean {

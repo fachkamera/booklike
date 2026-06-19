@@ -1,4 +1,4 @@
-import { getArticleRoot } from './helpers'
+import { getArticleRoot, READ_TIME } from './helpers'
 import {
   MIN_RENDERED_RESOLUTION,
   EXTREME_ASPECT_RATIO,
@@ -98,6 +98,13 @@ export function removeFigurelessFigcaptions(doc: Document): void {
 
 export function removeFigureNoise(doc: Document): void {
   doc.querySelectorAll('figure button, figure dialog').forEach((el) => el.remove())
+}
+
+export function removeReadTimeFigcaptions(doc: Document): void {
+  doc.querySelectorAll('figure > figcaption').forEach((fc) => {
+    const text = fc.textContent?.replace(/\s+/g, ' ').trim() ?? ''
+    if (READ_TIME.test(text)) fc.remove()
+  })
 }
 
 export function removeSvgPlaceholderImages(doc: Document): void {

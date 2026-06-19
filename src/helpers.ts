@@ -1,5 +1,8 @@
 export const CONTENT_BLOCKS = new Set(['P', 'FIGURE', 'UL', 'OL', 'BLOCKQUOTE', 'TABLE'])
 
+export const READ_TIME =
+  /^\s*(?:\w+(?:\s+\w+){0,3}[:\s]+)?\d+\s*[-–]?\s*min\w*(?:\s+\w+(?:\s+\w+)?)?\s*\.?\s*$/i
+
 export const getEmail = () => 'hello' + '@' + 'booklike.app'
 export const SECTION_STAMP = 'data-booklike-section'
 

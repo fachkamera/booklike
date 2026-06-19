@@ -10,6 +10,7 @@ import {
   removeSvgPlaceholderImages,
   removeFigurelessFigcaptions,
   removeFigureNoise,
+  removeReadTimeFigcaptions,
   removeKnownNonContent,
   removeRubricLabels,
   removeInlineRecommendedWidgets,
@@ -124,5 +125,6 @@ export function preprocess(doc: Document): PreprocessResult {
   stripNextJsFillImages(doc)
   stripHtmlComments(doc)
   stripBooklikeStamps(doc)
+  removeReadTimeFigcaptions(doc)
   return { ledeHTML, upgradeMap }
 }
