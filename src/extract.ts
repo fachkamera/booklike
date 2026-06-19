@@ -97,6 +97,8 @@ const cleanBylinePart = (s: string) =>
     .replace(/^\s*(written\s+by|by|von|par|por|di|van|av|від|автор:?)\s+/i, '')
     .trim()
 
+const BARE_LABEL = /^(author|autor|auteur|autorin|writer|by|von|par|por|di|van|av|автор)s?$/i
+
 export function extractByline(doc: Document, readabilityByline: string | null): string | null {
   const jsonLdAuthor = extractJsonLdAuthor(doc)
   if (jsonLdAuthor) return jsonLdAuthor
@@ -141,6 +143,7 @@ export function extractByline(doc: Document, readabilityByline: string | null): 
     const cleaned = parts.join('\n')
     if (
       cleaned &&
+      !BARE_LABEL.test(cleaned) &&
       !/^(see|view|read|visit|go to|about|more)\b/i.test(cleaned) &&
       !/^https?:\/\//i.test(cleaned)
     ) {
@@ -155,7 +158,8 @@ export function extractByline(doc: Document, readabilityByline: string | null): 
       .map(cleanBylinePart)
       .filter(Boolean)
     const cleaned = parts.join('\n')
-    if (cleaned && !/^(see|view|read|visit|go to|about|more)\b/i.test(cleaned)) return cleaned.slice(0, 200)
+    if (cleaned && !BARE_LABEL.test(cleaned) && !/^(see|view|read|visit|go to|about|more)\b/i.test(cleaned))
+      return cleaned.slice(0, 200)
   }
   return null
 }
