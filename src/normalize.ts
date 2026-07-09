@@ -498,3 +498,23 @@ export function injectLedeImage(doc: Document, siteRule: SiteRule | undefined): 
 
   return fig.outerHTML
 }
+
+export function unwrapDetails(doc: Document): void {
+  doc.querySelectorAll('details').forEach((details) => {
+    const summary = details.querySelector(':scope > summary')
+    const replacement: Node[] = []
+
+    const summaryText = summary?.textContent?.trim() ?? ''
+    if (summaryText) {
+      const h4 = doc.createElement('h4')
+      h4.textContent = summaryText
+      replacement.push(h4)
+    }
+
+    Array.from(details.childNodes).forEach((child) => {
+      if (child !== summary) replacement.push(child)
+    })
+
+    details.replaceWith(...replacement)
+  })
+}

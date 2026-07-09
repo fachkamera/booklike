@@ -51,6 +51,7 @@ import {
   stripHtmlComments,
   stripBooklikeStamps,
   injectLedeImage,
+  unwrapDetails,
 } from './normalize'
 import { stampContentWrappers } from './helpers'
 
@@ -122,6 +123,7 @@ export function preprocess(doc: Document): PreprocessResult {
   unwrapPresentationalSpans(doc)
   unwrapHgroups(doc)
   unwrapNestedLists(doc)
+  unwrapDetails(doc)
   stripNextJsFillImages(doc)
   stripHtmlComments(doc)
   stripBooklikeStamps(doc)
