@@ -32,6 +32,7 @@ import {
   unwrapFigureImageButtons,
   stripNextJsFillImages,
   trimEdgeBrs,
+  trimEdgeWhitespace,
   mergeDatelines,
   flattedSingleChildDivs,
   promoteImageBlocks,
@@ -124,6 +125,7 @@ export function preprocess(doc: Document): PreprocessResult {
   unwrapHgroups(doc)
   unwrapNestedLists(doc)
   unwrapDetails(doc)
+  trimEdgeWhitespace(doc)
   stripNextJsFillImages(doc)
   stripHtmlComments(doc)
   stripBooklikeStamps(doc)

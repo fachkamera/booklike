@@ -114,10 +114,36 @@ export function stripNextJsFillImages(doc: Document): void {
   })
 }
 
+const BLOCK_EDGE_SELECTOR = 'h1, h2, h3, h4, h5, h6, p, li, blockquote, td, th, figcaption'
+
 export function trimEdgeBrs(doc: Document): void {
-  doc.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li, blockquote, td, th, figcaption').forEach((el) => {
+  doc.querySelectorAll(BLOCK_EDGE_SELECTOR).forEach((el) => {
     while (el.firstChild?.nodeName === 'BR') el.firstChild.remove()
     while (el.lastChild?.nodeName === 'BR') el.lastChild.remove()
+  })
+}
+
+export function trimEdgeWhitespace(doc: Document): void {
+  doc.querySelectorAll(BLOCK_EDGE_SELECTOR).forEach((el) => {
+    let first = el.firstChild
+    while (first?.nodeType === Node.TEXT_NODE && !first.textContent?.trim()) {
+      const next: ChildNode | null = first.nextSibling
+      first.remove()
+      first = next
+    }
+    if (first?.nodeType === Node.TEXT_NODE) {
+      first.textContent = first.textContent?.replace(/^\s+/, '') ?? ''
+    }
+
+    let last = el.lastChild
+    while (last?.nodeType === Node.TEXT_NODE && !last.textContent?.trim()) {
+      const prev: ChildNode | null = last.previousSibling
+      last.remove()
+      last = prev
+    }
+    if (last?.nodeType === Node.TEXT_NODE) {
+      last.textContent = last.textContent?.replace(/\s+$/, '') ?? ''
+    }
   })
 }
 
