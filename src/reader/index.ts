@@ -9,7 +9,16 @@ import {
   WHEEL_DELTA_BUFFER_SIZE,
   WHEEL_FRESH_GESTURE_GAP_MS,
 } from '../config'
-import { defaults, loadSettings, saveSettings, syncSettingsUI, bindSetting, bindToggle } from './settings'
+import {
+  defaults,
+  loadSettings,
+  saveSettings,
+  syncSettingsUI,
+  bindSetting,
+  bindToggle,
+  stepSetting,
+  FONT_SIZE_ORDER,
+} from './settings'
 import {
   applyAll,
   applyTheme,
@@ -282,7 +291,19 @@ function bindKeyboardNavigation(
   lightbox: ReturnType<typeof createLightbox>,
   panels: ReturnType<typeof createPanelManager>,
   dict: ReturnType<typeof createDictionary>,
+  state: ReaderSettings,
+  ctx: DisplayCtx,
+  measure: () => void,
 ): void {
+  const stepFontSize = (dir: 1 | -1) => {
+    const next = stepSetting(FONT_SIZE_ORDER, state.fontSize, dir)
+    if (next === state.fontSize) return
+    state.fontSize = next
+    applyFontSize(ctx)
+    saveSettings(state)
+    syncSettingsUI(doc, state)
+    measure()
+  }
   doc.addEventListener('keydown', (e) => {
     const activeType = (doc.activeElement as HTMLInputElement)?.type
     if (activeType === 'radio' || activeType === 'checkbox') return
@@ -298,6 +319,12 @@ function bindKeyboardNavigation(
       pagination.goPrev()
     } else if (e.metaKey || e.ctrlKey || e.altKey) {
       return
+    } else if (e.key === '+' || e.key === '=') {
+      e.preventDefault()
+      stepFontSize(1)
+    } else if (e.key === '-' || e.key === '_') {
+      e.preventDefault()
+      stepFontSize(-1)
     } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
       e.preventDefault()
       pagination.goNext()
@@ -520,7 +547,7 @@ export async function launchReader(
   bindSettingsControls(doc, state, ctx, measurePreservingAnchor, dict, settingsPanel, themePanel)
 
   bindWheelNavigation(doc, pagination, lightbox)
-  bindKeyboardNavigation(doc, pagination, lightbox, panels, dict)
+  bindKeyboardNavigation(doc, pagination, lightbox, panels, dict, state, ctx, measurePreservingAnchor)
   bindNavigationButtons(btnPagePrev, btnPageNext, pagination, lightbox)
   bindOutsideClickDismissal(doc, dict)
 
