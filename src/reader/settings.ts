@@ -16,6 +16,8 @@ export const FONT_SIZE_MAP: Record<string, string> = {
   xlarge: 'prose-xl',
 }
 
+export const FONT_SIZE_ORDER = Object.keys(FONT_SIZE_MAP)
+
 export const LINE_HEIGHT_MAP: Record<string, string> = {
   compact: 'leading-[1.625]',
   normal: 'leading-[1.875]',
@@ -133,6 +135,12 @@ export function syncSettingsUI(doc: Document, state: ReaderSettings): void {
     const el = doc.querySelector<HTMLInputElement>(`input[type="checkbox"][name="${name}"]`)
     if (el) el.checked = checked
   }
+}
+
+export function stepSetting(order: string[], current: string, dir: 1 | -1): string {
+  const i = order.indexOf(current)
+  if (i === -1) return current
+  return order[Math.min(Math.max(i + dir, 0), order.length - 1)]
 }
 
 export function bindToggle(doc: Document, inputName: string, onChange: (checked: boolean) => void): void {
