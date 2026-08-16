@@ -97,5 +97,11 @@ export const WHEEL_DELTA_BUFFER_SIZE = 150
 /** Minimum gap (ms) between wheel events to treat the next event as a fresh gesture. */
 export const WHEEL_FRESH_GESTURE_GAP_MS = 200
 
+/** Horizontal gap (px) between the menu bar and an open submenu panel. */
+export const PANEL_GAP_PX = 8
+
+/** Minimum distance (px) an open submenu panel keeps from the viewport edges. */
+export const PANEL_VIEWPORT_PAD_PX = 16
+
 /** Grace period (ms) after reader activation during which a tab reload won't deactivate the reader. */
 export const READER_ACTIVATION_GRACE_MS = 3000

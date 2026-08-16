@@ -218,314 +218,322 @@
           Layout
         </button>
       </div>
-      <div id="typographyTab-font" class="typography-tab-content pt-2">
-        <div class="flex flex-col gap-6">
-          <fieldset>
-            <legend class="mb-2 text-xs tracking-wider uppercase opacity-60 select-none">Font family</legend>
-            <div class="flex gap-2">
-              <label
-                class="font-spectral focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="font" value="spectral" checked class="sr-only" />
-                Spectral
-              </label>
-              <label
-                class="font-literata focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="font" value="literata" class="sr-only" />
-                Literata
-              </label>
-              <label
-                class="font-garamond focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="font" value="garamond" class="sr-only" />
-                Garamond
-              </label>
-              <label
-                class="font-inter focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="font" value="inter" class="sr-only" />
-                Inter
-              </label>
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend class="mb-2 text-xs tracking-wider uppercase opacity-60 select-none">Font size</legend>
-            <div class="font-inter flex items-center gap-2">
-              <label
-                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-xs hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="font-size" value="small" class="sr-only" />
-                S
-              </label>
-              <label
-                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="font-size" value="regular" class="sr-only" />
-                M
-              </label>
-              <label
-                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-base hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="font-size" value="large" class="sr-only" checked />
-                L
-              </label>
-              <label
-                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-lg hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="font-size" value="xlarge" class="sr-only" />
-                XL
-              </label>
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend class="mb-2 text-xs tracking-wider uppercase opacity-60 select-none">
-              Letter spacing
-            </legend>
-            <div class="flex gap-2">
-              <label
-                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="letter-spacing" value="compact" class="sr-only" />
-                <svg
-                  class="size-5"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
+      <div class="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+        <div id="typographyTab-font" class="typography-tab-content pt-2">
+          <div class="flex flex-col gap-6">
+            <fieldset>
+              <legend class="mb-2 text-xs tracking-wider uppercase opacity-60 select-none">
+                Font family
+              </legend>
+              <div class="flex gap-2">
+                <label
+                  class="font-spectral focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
                 >
-                  <line x1="5" y1="4" x2="5" y2="16" />
-                  <line x1="10" y1="4" x2="10" y2="16" />
-                  <line x1="15" y1="4" x2="15" y2="16" />
-                </svg>
-                <span class="text-[0.625rem]">Compact</span>
-              </label>
-              <label
-                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="letter-spacing" value="normal" class="sr-only" checked />
-                <svg
-                  class="size-5"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
+                  <input type="radio" name="font" value="spectral" checked class="sr-only" />
+                  Spectral
+                </label>
+                <label
+                  class="font-literata focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
                 >
-                  <line x1="3" y1="4" x2="3" y2="16" />
-                  <line x1="10" y1="4" x2="10" y2="16" />
-                  <line x1="17" y1="4" x2="17" y2="16" />
-                </svg>
-                <span class="text-[0.625rem]">Normal</span>
-              </label>
-              <label
-                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="letter-spacing" value="relaxed" class="sr-only" />
-                <svg
-                  class="size-5"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
+                  <input type="radio" name="font" value="literata" class="sr-only" />
+                  Literata
+                </label>
+                <label
+                  class="font-garamond focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
                 >
-                  <line x1="1" y1="4" x2="1" y2="16" />
-                  <line x1="10" y1="4" x2="10" y2="16" />
-                  <line x1="19" y1="4" x2="19" y2="16" />
-                </svg>
-                <span class="text-[0.625rem]">Relaxed</span>
-              </label>
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend class="mb-2 text-xs tracking-wider uppercase opacity-60 select-none">Hyphenation</legend>
-            <div class="flex gap-2">
-              <label
-                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="hyphens" value="auto" class="sr-only" checked />
-                Hy-phen
-              </label>
-              <label
-                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="hyphens" value="none" class="sr-only" />
-                Hyphen
-              </label>
-            </div>
-          </fieldset>
+                  <input type="radio" name="font" value="garamond" class="sr-only" />
+                  Garamond
+                </label>
+                <label
+                  class="font-inter focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
+                >
+                  <input type="radio" name="font" value="inter" class="sr-only" />
+                  Inter
+                </label>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="mb-2 text-xs tracking-wider uppercase opacity-60 select-none">Font size</legend>
+              <div class="font-inter flex items-center gap-2">
+                <label
+                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-xs hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
+                >
+                  <input type="radio" name="font-size" value="small" class="sr-only" />
+                  S
+                </label>
+                <label
+                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
+                >
+                  <input type="radio" name="font-size" value="regular" class="sr-only" />
+                  M
+                </label>
+                <label
+                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-base hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
+                >
+                  <input type="radio" name="font-size" value="large" class="sr-only" checked />
+                  L
+                </label>
+                <label
+                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-lg hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
+                >
+                  <input type="radio" name="font-size" value="xlarge" class="sr-only" />
+                  XL
+                </label>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="mb-2 text-xs tracking-wider uppercase opacity-60 select-none">
+                Letter spacing
+              </legend>
+              <div class="flex gap-2">
+                <label
+                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
+                >
+                  <input type="radio" name="letter-spacing" value="compact" class="sr-only" />
+                  <svg
+                    class="size-5"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  >
+                    <line x1="5" y1="4" x2="5" y2="16" />
+                    <line x1="10" y1="4" x2="10" y2="16" />
+                    <line x1="15" y1="4" x2="15" y2="16" />
+                  </svg>
+                  <span class="text-[0.625rem]">Compact</span>
+                </label>
+                <label
+                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
+                >
+                  <input type="radio" name="letter-spacing" value="normal" class="sr-only" checked />
+                  <svg
+                    class="size-5"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  >
+                    <line x1="3" y1="4" x2="3" y2="16" />
+                    <line x1="10" y1="4" x2="10" y2="16" />
+                    <line x1="17" y1="4" x2="17" y2="16" />
+                  </svg>
+                  <span class="text-[0.625rem]">Normal</span>
+                </label>
+                <label
+                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
+                >
+                  <input type="radio" name="letter-spacing" value="relaxed" class="sr-only" />
+                  <svg
+                    class="size-5"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  >
+                    <line x1="1" y1="4" x2="1" y2="16" />
+                    <line x1="10" y1="4" x2="10" y2="16" />
+                    <line x1="19" y1="4" x2="19" y2="16" />
+                  </svg>
+                  <span class="text-[0.625rem]">Relaxed</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="mb-2 text-xs tracking-wider uppercase opacity-60 select-none">
+                Hyphenation
+              </legend>
+              <div class="flex gap-2">
+                <label
+                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
+                >
+                  <input type="radio" name="hyphens" value="auto" class="sr-only" checked />
+                  Hy-phen
+                </label>
+                <label
+                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
+                >
+                  <input type="radio" name="hyphens" value="none" class="sr-only" />
+                  Hyphen
+                </label>
+              </div>
+            </fieldset>
+          </div>
         </div>
-      </div>
-      <div id="typographyTab-layout" class="typography-tab-content hidden pt-2">
-        <div class="flex flex-col gap-6">
-          <fieldset>
-            <legend class="mb-2 text-xs tracking-wider uppercase opacity-60 select-none">Line height</legend>
-            <div class="flex gap-2">
-              <label
-                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="line-height" value="compact" class="sr-only" />
-                <svg
-                  class="size-5"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
+        <div id="typographyTab-layout" class="typography-tab-content hidden pt-2">
+          <div class="flex flex-col gap-6">
+            <fieldset>
+              <legend class="mb-2 text-xs tracking-wider uppercase opacity-60 select-none">
+                Line height
+              </legend>
+              <div class="flex gap-2">
+                <label
+                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
                 >
-                  <line x1="2" y1="5" x2="18" y2="5" />
-                  <line x1="2" y1="10" x2="18" y2="10" />
-                  <line x1="2" y1="15" x2="18" y2="15" />
-                </svg>
-                <span class="text-[0.625rem]">Compact</span>
-              </label>
-              <label
-                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="line-height" value="normal" class="sr-only" checked />
-                <svg
-                  class="size-5"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
+                  <input type="radio" name="line-height" value="compact" class="sr-only" />
+                  <svg
+                    class="size-5"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  >
+                    <line x1="2" y1="5" x2="18" y2="5" />
+                    <line x1="2" y1="10" x2="18" y2="10" />
+                    <line x1="2" y1="15" x2="18" y2="15" />
+                  </svg>
+                  <span class="text-[0.625rem]">Compact</span>
+                </label>
+                <label
+                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
                 >
-                  <line x1="2" y1="3" x2="18" y2="3" />
-                  <line x1="2" y1="10" x2="18" y2="10" />
-                  <line x1="2" y1="17" x2="18" y2="17" />
-                </svg>
-                <span class="text-[0.625rem]">Normal</span>
-              </label>
-              <label
-                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="line-height" value="relaxed" class="sr-only" />
-                <svg
-                  class="size-5"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
+                  <input type="radio" name="line-height" value="normal" class="sr-only" checked />
+                  <svg
+                    class="size-5"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  >
+                    <line x1="2" y1="3" x2="18" y2="3" />
+                    <line x1="2" y1="10" x2="18" y2="10" />
+                    <line x1="2" y1="17" x2="18" y2="17" />
+                  </svg>
+                  <span class="text-[0.625rem]">Normal</span>
+                </label>
+                <label
+                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
                 >
-                  <line x1="2" y1="2" x2="18" y2="2" />
-                  <line x1="2" y1="10" x2="18" y2="10" />
-                  <line x1="2" y1="18" x2="18" y2="18" />
-                </svg>
-                <span class="text-[0.625rem]">Relaxed</span>
-              </label>
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend class="mb-2 text-xs tracking-wider uppercase opacity-60 select-none">
-              Text alignment
-            </legend>
-            <div class="flex gap-2">
-              <label
-                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="text-align" value="left" class="sr-only" />
-                <svg
-                  class="size-5"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
+                  <input type="radio" name="line-height" value="relaxed" class="sr-only" />
+                  <svg
+                    class="size-5"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  >
+                    <line x1="2" y1="2" x2="18" y2="2" />
+                    <line x1="2" y1="10" x2="18" y2="10" />
+                    <line x1="2" y1="18" x2="18" y2="18" />
+                  </svg>
+                  <span class="text-[0.625rem]">Relaxed</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="mb-2 text-xs tracking-wider uppercase opacity-60 select-none">
+                Text alignment
+              </legend>
+              <div class="flex gap-2">
+                <label
+                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
                 >
-                  <line x1="2" y1="4" x2="18" y2="4" />
-                  <line x1="2" y1="8" x2="13" y2="8" />
-                  <line x1="2" y1="12" x2="18" y2="12" />
-                  <line x1="2" y1="16" x2="13" y2="16" />
-                </svg>
-                <span class="text-[0.625rem]">Left</span>
-              </label>
-              <label
-                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="text-align" value="justify" class="sr-only" checked />
-                <svg
-                  class="size-5"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
+                  <input type="radio" name="text-align" value="left" class="sr-only" />
+                  <svg
+                    class="size-5"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  >
+                    <line x1="2" y1="4" x2="18" y2="4" />
+                    <line x1="2" y1="8" x2="13" y2="8" />
+                    <line x1="2" y1="12" x2="18" y2="12" />
+                    <line x1="2" y1="16" x2="13" y2="16" />
+                  </svg>
+                  <span class="text-[0.625rem]">Left</span>
+                </label>
+                <label
+                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
                 >
-                  <line x1="2" y1="4" x2="18" y2="4" />
-                  <line x1="2" y1="8" x2="18" y2="8" />
-                  <line x1="2" y1="12" x2="18" y2="12" />
-                  <line x1="2" y1="16" x2="18" y2="16" />
-                </svg>
-                <span class="text-[0.625rem]">Justify</span>
-              </label>
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend class="mb-2 text-xs tracking-wider uppercase opacity-60 select-none">Margins</legend>
-            <div class="flex gap-2">
-              <label
-                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="margin" value="narrow" class="sr-only" />
-                <svg
-                  class="size-5"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
+                  <input type="radio" name="text-align" value="justify" class="sr-only" checked />
+                  <svg
+                    class="size-5"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  >
+                    <line x1="2" y1="4" x2="18" y2="4" />
+                    <line x1="2" y1="8" x2="18" y2="8" />
+                    <line x1="2" y1="12" x2="18" y2="12" />
+                    <line x1="2" y1="16" x2="18" y2="16" />
+                  </svg>
+                  <span class="text-[0.625rem]">Justify</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="mb-2 text-xs tracking-wider uppercase opacity-60 select-none">Margins</legend>
+              <div class="flex gap-2">
+                <label
+                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
                 >
-                  <rect x="1" y="2" width="18" height="16" rx="2" stroke-opacity="0.3" />
-                  <line x1="3" y1="6" x2="17" y2="6" />
-                  <line x1="3" y1="10" x2="17" y2="10" />
-                  <line x1="3" y1="14" x2="17" y2="14" />
-                </svg>
-                <span class="text-[0.625rem]">Narrow</span>
-              </label>
-              <label
-                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="margin" value="medium" class="sr-only" checked />
-                <svg
-                  class="size-5"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
+                  <input type="radio" name="margin" value="narrow" class="sr-only" />
+                  <svg
+                    class="size-5"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  >
+                    <rect x="1" y="2" width="18" height="16" rx="2" stroke-opacity="0.3" />
+                    <line x1="3" y1="6" x2="17" y2="6" />
+                    <line x1="3" y1="10" x2="17" y2="10" />
+                    <line x1="3" y1="14" x2="17" y2="14" />
+                  </svg>
+                  <span class="text-[0.625rem]">Narrow</span>
+                </label>
+                <label
+                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
                 >
-                  <rect x="1" y="2" width="18" height="16" rx="2" stroke-opacity="0.3" />
-                  <line x1="5" y1="6" x2="15" y2="6" />
-                  <line x1="5" y1="10" x2="15" y2="10" />
-                  <line x1="5" y1="14" x2="15" y2="14" />
-                </svg>
-                <span class="text-[0.625rem]">Medium</span>
-              </label>
-              <label
-                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="margin" value="wide" class="sr-only" />
-                <svg
-                  class="size-5"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
+                  <input type="radio" name="margin" value="medium" class="sr-only" checked />
+                  <svg
+                    class="size-5"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  >
+                    <rect x="1" y="2" width="18" height="16" rx="2" stroke-opacity="0.3" />
+                    <line x1="5" y1="6" x2="15" y2="6" />
+                    <line x1="5" y1="10" x2="15" y2="10" />
+                    <line x1="5" y1="14" x2="15" y2="14" />
+                  </svg>
+                  <span class="text-[0.625rem]">Medium</span>
+                </label>
+                <label
+                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
                 >
-                  <rect x="1" y="2" width="18" height="16" rx="2" stroke-opacity="0.3" />
-                  <line x1="7" y1="6" x2="13" y2="6" />
-                  <line x1="7" y1="10" x2="13" y2="10" />
-                  <line x1="7" y1="14" x2="13" y2="14" />
-                </svg>
-                <span class="text-[0.625rem]">Wide</span>
-              </label>
-            </div>
-          </fieldset>
+                  <input type="radio" name="margin" value="wide" class="sr-only" />
+                  <svg
+                    class="size-5"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  >
+                    <rect x="1" y="2" width="18" height="16" rx="2" stroke-opacity="0.3" />
+                    <line x1="7" y1="6" x2="13" y2="6" />
+                    <line x1="7" y1="10" x2="13" y2="10" />
+                    <line x1="7" y1="14" x2="13" y2="14" />
+                  </svg>
+                  <span class="text-[0.625rem]">Wide</span>
+                </label>
+              </div>
+            </fieldset>
+          </div>
         </div>
       </div>
     </div>
@@ -554,168 +562,170 @@
           About
         </button>
       </div>
-      <div id="settingsTab-reader" class="settings-tab-content pt-2">
-        <div class="flex flex-col gap-1">
-          <div class="flex items-center justify-between gap-6 px-1 py-2">
-            <span id="lbl-links" class="text-sm select-none">Links</span>
-            <label
-              class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 relative inline-flex h-6 w-11 shrink-0 rounded-full bg-stone-200 transition-colors duration-200 has-checked:bg-stone-900 motion-reduce:duration-0 dark:bg-stone-600 dark:has-checked:bg-neutral-100"
-            >
-              <input type="checkbox" name="links" aria-labelledby="lbl-links" class="peer sr-only" />
-              <span
-                class="absolute top-0.5 left-0.5 size-5 rounded-full bg-white shadow-sm transition-transform duration-200 peer-checked:translate-x-5 motion-reduce:duration-0 dark:peer-checked:bg-stone-800"
-              ></span>
-            </label>
+      <div class="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+        <div id="settingsTab-reader" class="settings-tab-content pt-2">
+          <div class="flex flex-col gap-1">
+            <div class="flex items-center justify-between gap-6 px-1 py-2">
+              <span id="lbl-links" class="text-sm select-none">Links</span>
+              <label
+                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 relative inline-flex h-6 w-11 shrink-0 rounded-full bg-stone-200 transition-colors duration-200 has-checked:bg-stone-900 motion-reduce:duration-0 dark:bg-stone-600 dark:has-checked:bg-neutral-100"
+              >
+                <input type="checkbox" name="links" aria-labelledby="lbl-links" class="peer sr-only" />
+                <span
+                  class="absolute top-0.5 left-0.5 size-5 rounded-full bg-white shadow-sm transition-transform duration-200 peer-checked:translate-x-5 motion-reduce:duration-0 dark:peer-checked:bg-stone-800"
+                ></span>
+              </label>
+            </div>
+            <div class="flex items-center justify-between gap-6 px-1 py-2">
+              <span id="lbl-images" class="text-sm select-none">Images</span>
+              <label
+                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 relative inline-flex h-6 w-11 shrink-0 rounded-full bg-stone-200 transition-colors duration-200 has-checked:bg-stone-900 motion-reduce:duration-0 dark:bg-stone-600 dark:has-checked:bg-neutral-100"
+              >
+                <input
+                  type="checkbox"
+                  name="images"
+                  checked
+                  aria-labelledby="lbl-images"
+                  class="peer sr-only"
+                />
+                <span
+                  class="absolute top-0.5 left-0.5 size-5 rounded-full bg-white shadow-sm transition-transform duration-200 peer-checked:translate-x-5 motion-reduce:duration-0 dark:peer-checked:bg-stone-800"
+                ></span>
+              </label>
+            </div>
+            <div class="flex items-center justify-between gap-6 px-1 py-2">
+              <span id="lbl-dictionary" class="text-sm select-none">Dictionary</span>
+              <label
+                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 relative inline-flex h-6 w-11 shrink-0 rounded-full bg-stone-200 transition-colors duration-200 has-checked:bg-stone-900 motion-reduce:duration-0 dark:bg-stone-600 dark:has-checked:bg-neutral-100"
+              >
+                <input
+                  type="checkbox"
+                  name="dictionary"
+                  checked
+                  aria-labelledby="lbl-dictionary"
+                  class="peer sr-only"
+                />
+                <span
+                  class="absolute top-0.5 left-0.5 size-5 rounded-full bg-white shadow-sm transition-transform duration-200 peer-checked:translate-x-5 motion-reduce:duration-0 dark:peer-checked:bg-stone-800"
+                ></span>
+              </label>
+            </div>
           </div>
-          <div class="flex items-center justify-between gap-6 px-1 py-2">
-            <span id="lbl-images" class="text-sm select-none">Images</span>
-            <label
-              class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 relative inline-flex h-6 w-11 shrink-0 rounded-full bg-stone-200 transition-colors duration-200 has-checked:bg-stone-900 motion-reduce:duration-0 dark:bg-stone-600 dark:has-checked:bg-neutral-100"
+          <div class="mt-2 flex flex-col gap-2 border-t border-current/10 pt-4">
+            <button
+              id="btnResetSettings"
+              class="inline self-start text-xs opacity-40 transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-yellow-600 dark:focus-visible:outline-yellow-400"
             >
-              <input
-                type="checkbox"
-                name="images"
-                checked
-                aria-labelledby="lbl-images"
-                class="peer sr-only"
-              />
-              <span
-                class="absolute top-0.5 left-0.5 size-5 rounded-full bg-white shadow-sm transition-transform duration-200 peer-checked:translate-x-5 motion-reduce:duration-0 dark:peer-checked:bg-stone-800"
-              ></span>
-            </label>
-          </div>
-          <div class="flex items-center justify-between gap-6 px-1 py-2">
-            <span id="lbl-dictionary" class="text-sm select-none">Dictionary</span>
-            <label
-              class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 relative inline-flex h-6 w-11 shrink-0 rounded-full bg-stone-200 transition-colors duration-200 has-checked:bg-stone-900 motion-reduce:duration-0 dark:bg-stone-600 dark:has-checked:bg-neutral-100"
-            >
-              <input
-                type="checkbox"
-                name="dictionary"
-                checked
-                aria-labelledby="lbl-dictionary"
-                class="peer sr-only"
-              />
-              <span
-                class="absolute top-0.5 left-0.5 size-5 rounded-full bg-white shadow-sm transition-transform duration-200 peer-checked:translate-x-5 motion-reduce:duration-0 dark:peer-checked:bg-stone-800"
-              ></span>
-            </label>
+              Reset all settings
+            </button>
           </div>
         </div>
-        <div class="mt-2 flex flex-col gap-2 border-t border-current/10 pt-4">
-          <button
-            id="btnResetSettings"
-            class="inline self-start text-xs opacity-40 transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-yellow-600 dark:focus-visible:outline-yellow-400"
-          >
-            Reset all settings
-          </button>
-        </div>
-      </div>
-      <div id="settingsTab-about" class="settings-tab-content hidden text-xs leading-relaxed">
-        <div class="flex flex-col gap-4">
-          <div class="flex items-center gap-2.5">
-            <svg
-              class="size-7 shrink-0"
-              width="128"
-              height="128"
-              viewBox="0 0 80 80"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect width="80" height="80" rx="16" class="fill-stone-900 dark:fill-white" />
-              <g class="fill-stone-100 dark:fill-stone-900">
-                <rect x="24" y="16" width="6" height="48" rx="3" />
-                <circle cx="44" cy="29" r="11" />
-                <circle cx="46" cy="51" r="13" />
-              </g>
-            </svg>
+        <div id="settingsTab-about" class="settings-tab-content hidden text-xs leading-relaxed">
+          <div class="flex flex-col gap-4">
+            <div class="flex items-center gap-2.5">
+              <svg
+                class="size-7 shrink-0"
+                width="128"
+                height="128"
+                viewBox="0 0 80 80"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect width="80" height="80" rx="16" class="fill-stone-900 dark:fill-white" />
+                <g class="fill-stone-100 dark:fill-stone-900">
+                  <rect x="24" y="16" width="6" height="48" rx="3" />
+                  <circle cx="44" cy="29" r="11" />
+                  <circle cx="46" cy="51" r="13" />
+                </g>
+              </svg>
 
-            <span class="text-xl font-bold tracking-tight">BookLike</span>
-          </div>
-          <p>
-            Read any web article like a book. No ads, no distractions,<br />
-            just clean pages you can flip through.
-          </p>
-          <div class="flex flex-col gap-2">
-            <p>Keyboard shortcuts:</p>
-            <table class="w-full border-collapse text-xs text-black dark:text-white">
-              <tbody>
-                <tr class="border-b border-current/10">
-                  <td class="py-1.5 pr-3 opacity-80">Next page</td>
-                  <td class="py-1.5 font-mono">Space → ↓ PageDown</td>
-                </tr>
-                <tr class="border-b border-current/10">
-                  <td class="py-1.5 pr-3 opacity-80">Previous page</td>
-                  <td class="py-1.5 font-mono">Shift+Space ← ↑ PageUp</td>
-                </tr>
-                <tr class="border-b border-current/10">
-                  <td class="py-1.5 pr-3 opacity-80">First / last page</td>
-                  <td class="py-1.5 font-mono">Home / End</td>
-                </tr>
-                <tr class="border-b border-current/10">
-                  <td class="py-1.5 pr-3 opacity-80">Larger / smaller text</td>
-                  <td class="py-1.5 font-mono">+ / −</td>
-                </tr>
-                <tr>
-                  <td class="py-1.5 pr-3 opacity-80">Zoom whole page</td>
-                  <td class="py-1.5 font-mono"><span id="zoomKey"></span>+/−</td>
-                </tr>
-                <tr class="border-t border-current/10">
-                  <td class="py-1.5 pr-3 opacity-80">Activate BookLike</td>
-                  <td class="py-1.5 font-mono"><span id="activationShortcut">Alt+Shift+B</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="flex flex-col gap-2">
-            <p>Tips:</p>
-            <ul class="flex list-disc flex-col gap-1.5 pl-4 text-xs opacity-70">
-              <li>Activation shortcut can be changed in <em>Manage extensions</em></li>
-              <li>Double-click any word to look it up in the dictionary (English only)</li>
-              <li>Click images to zoom in</li>
-            </ul>
-          </div>
-          <div class="flex flex-col items-start gap-2 border-t border-stone-300 pt-3 dark:border-stone-700">
-            <a
-              id="feedbackEmail"
-              href="#"
-              class="flex items-center gap-2 opacity-70 hover:opacity-100 focus-visible:outline-2 focus-visible:outline-yellow-600 dark:focus-visible:outline-yellow-400"
-            >
-              <svg
-                class="size-4 shrink-0"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+              <span class="text-xl font-bold tracking-tight">BookLike</span>
+            </div>
+            <p>
+              Read any web article like a book. No ads, no distractions,<br />
+              just clean pages you can flip through.
+            </p>
+            <div class="flex flex-col gap-2">
+              <p>Keyboard shortcuts:</p>
+              <table class="w-full border-collapse text-xs text-black dark:text-white">
+                <tbody>
+                  <tr class="border-b border-current/10">
+                    <td class="py-1.5 pr-3 opacity-80">Next page</td>
+                    <td class="py-1.5 font-mono">Space → ↓ PageDown</td>
+                  </tr>
+                  <tr class="border-b border-current/10">
+                    <td class="py-1.5 pr-3 opacity-80">Previous page</td>
+                    <td class="py-1.5 font-mono">Shift+Space ← ↑ PageUp</td>
+                  </tr>
+                  <tr class="border-b border-current/10">
+                    <td class="py-1.5 pr-3 opacity-80">First / last page</td>
+                    <td class="py-1.5 font-mono">Home / End</td>
+                  </tr>
+                  <tr class="border-b border-current/10">
+                    <td class="py-1.5 pr-3 opacity-80">Larger / smaller text</td>
+                    <td class="py-1.5 font-mono">+ / −</td>
+                  </tr>
+                  <tr>
+                    <td class="py-1.5 pr-3 opacity-80">Zoom whole page</td>
+                    <td class="py-1.5 font-mono"><span id="zoomKey"></span>+/−</td>
+                  </tr>
+                  <tr class="border-t border-current/10">
+                    <td class="py-1.5 pr-3 opacity-80">Activate BookLike</td>
+                    <td class="py-1.5 font-mono"><span id="activationShortcut">Alt+Shift+B</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="flex flex-col gap-2">
+              <p>Tips:</p>
+              <ul class="flex list-disc flex-col gap-1.5 pl-4 text-xs opacity-70">
+                <li>Activation shortcut can be changed in <em>Manage extensions</em></li>
+                <li>Double-click any word to look it up in the dictionary (English only)</li>
+                <li>Click images to zoom in</li>
+              </ul>
+            </div>
+            <div class="flex flex-col items-start gap-2 border-t border-stone-300 pt-3 dark:border-stone-700">
+              <a
+                id="feedbackEmail"
+                href="#"
+                class="flex items-center gap-2 opacity-70 hover:opacity-100 focus-visible:outline-2 focus-visible:outline-yellow-600 dark:focus-visible:outline-yellow-400"
               >
-                <rect x="2" y="4" width="20" height="16" rx="2" />
-                <polyline points="2,4 12,13 22,4" />
-              </svg>
-              Send feedback
-            </a>
-            <a
-              href="https://github.com/fachkamera/booklike/issues"
-              target="_blank"
-              rel="noopener"
-              class="flex items-center gap-2 opacity-70 hover:opacity-100 focus-visible:outline-2 focus-visible:outline-yellow-600 dark:focus-visible:outline-yellow-400"
-            >
-              <svg
-                class="size-4 shrink-0"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                <svg
+                  class="size-4 shrink-0"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2" y="4" width="20" height="16" rx="2" />
+                  <polyline points="2,4 12,13 22,4" />
+                </svg>
+                Send feedback
+              </a>
+              <a
+                href="https://github.com/fachkamera/booklike/issues"
+                target="_blank"
+                rel="noopener"
+                class="flex items-center gap-2 opacity-70 hover:opacity-100 focus-visible:outline-2 focus-visible:outline-yellow-600 dark:focus-visible:outline-yellow-400"
               >
-                <circle cx="12" cy="12" r="10" />
-                <line x1="12" y1="8" x2="12" y2="12" />
-                <line x1="12" y1="16" x2="12.01" y2="16" />
-              </svg>
-              Report a bug
-            </a>
+                <svg
+                  class="size-4 shrink-0"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+                Report a bug
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -745,62 +755,64 @@
           Advanced
         </button>
       </div>
-      <div id="themeTab-color" class="theme-tab-content pt-2">
-        <div class="flex flex-col gap-6">
-          <fieldset>
-            <legend class="mb-2 text-xs tracking-wider uppercase opacity-60 select-none">Interface</legend>
-            <div class="flex gap-2">
-              <label
-                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="theme" value="auto" checked class="sr-only" />
-                Auto
-              </label>
-              <label
-                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="theme" value="light" class="sr-only" />
-                Light
-              </label>
-              <label
-                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="theme" value="dark" class="sr-only" />
-                Dark
-              </label>
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend class="mb-2 text-xs tracking-wider uppercase opacity-60 select-none">Display</legend>
-            <div class="flex gap-2">
-              <label
-                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="display-mode" value="light" checked class="sr-only" />
-                Light
-              </label>
-              <label
-                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-              >
-                <input type="radio" name="display-mode" value="dark" class="sr-only" />
-                Dark
-              </label>
-            </div>
-          </fieldset>
+      <div class="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+        <div id="themeTab-color" class="theme-tab-content pt-2">
+          <div class="flex flex-col gap-6">
+            <fieldset>
+              <legend class="mb-2 text-xs tracking-wider uppercase opacity-60 select-none">Interface</legend>
+              <div class="flex gap-2">
+                <label
+                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
+                >
+                  <input type="radio" name="theme" value="auto" checked class="sr-only" />
+                  Auto
+                </label>
+                <label
+                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
+                >
+                  <input type="radio" name="theme" value="light" class="sr-only" />
+                  Light
+                </label>
+                <label
+                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
+                >
+                  <input type="radio" name="theme" value="dark" class="sr-only" />
+                  Dark
+                </label>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="mb-2 text-xs tracking-wider uppercase opacity-60 select-none">Display</legend>
+              <div class="flex gap-2">
+                <label
+                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
+                >
+                  <input type="radio" name="display-mode" value="light" checked class="sr-only" />
+                  Light
+                </label>
+                <label
+                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
+                >
+                  <input type="radio" name="display-mode" value="dark" class="sr-only" />
+                  Dark
+                </label>
+              </div>
+            </fieldset>
+          </div>
         </div>
-      </div>
-      <div id="themeTab-advanced" class="theme-tab-content hidden pt-2">
-        <div class="flex flex-col gap-1">
-          <div class="flex items-center justify-between gap-6 px-1 py-2">
-            <span id="lbl-contrast" class="text-sm select-none">High contrast</span>
-            <label
-              class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 relative inline-flex h-6 w-11 shrink-0 rounded-full bg-stone-200 transition-colors duration-200 has-checked:bg-stone-900 motion-reduce:duration-0 dark:bg-stone-600 dark:has-checked:bg-neutral-100"
-            >
-              <input type="checkbox" name="contrast" aria-labelledby="lbl-contrast" class="peer sr-only" />
-              <span
-                class="absolute top-0.5 left-0.5 size-5 rounded-full bg-white shadow-sm transition-transform duration-200 peer-checked:translate-x-5 motion-reduce:duration-0 dark:peer-checked:bg-stone-800"
-              ></span>
-            </label>
+        <div id="themeTab-advanced" class="theme-tab-content hidden pt-2">
+          <div class="flex flex-col gap-1">
+            <div class="flex items-center justify-between gap-6 px-1 py-2">
+              <span id="lbl-contrast" class="text-sm select-none">High contrast</span>
+              <label
+                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 relative inline-flex h-6 w-11 shrink-0 rounded-full bg-stone-200 transition-colors duration-200 has-checked:bg-stone-900 motion-reduce:duration-0 dark:bg-stone-600 dark:has-checked:bg-neutral-100"
+              >
+                <input type="checkbox" name="contrast" aria-labelledby="lbl-contrast" class="peer sr-only" />
+                <span
+                  class="absolute top-0.5 left-0.5 size-5 rounded-full bg-white shadow-sm transition-transform duration-200 peer-checked:translate-x-5 motion-reduce:duration-0 dark:peer-checked:bg-stone-800"
+                ></span>
+              </label>
+            </div>
           </div>
         </div>
       </div>
@@ -808,7 +820,7 @@
     <div
       id="exportPanel"
       inert
-      class="fixed z-50 flex flex-col rounded-2xl border border-stone-200 bg-white/80 p-1.5 text-black opacity-0 backdrop-blur-lg dark:border-stone-900 dark:bg-black/80 dark:text-white"
+      class="fixed z-50 flex flex-col overflow-y-auto overscroll-contain rounded-2xl border border-stone-200 bg-white/80 p-1.5 text-black opacity-0 backdrop-blur-lg dark:border-stone-900 dark:bg-black/80 dark:text-white"
     >
       <div class="flex flex-col">
         <button
