@@ -1,3 +1,5 @@
+import { PANEL_GAP_PX, PANEL_VIEWPORT_PAD_PX } from '../config'
+
 function setButtonActive(btn: Element, active: boolean): void {
   btn.classList.toggle('text-yellow-600', active)
   btn.classList.toggle('dark:text-yellow-400', active)
@@ -14,23 +16,24 @@ function positionPanel(
   const menuRect = menu.getBoundingClientRect()
   const { innerWidth, innerHeight } = contentWindow
   const onLeft = menuRect.left < innerWidth / 2
-  const panelHeight = panel.offsetHeight || 200
+  const pad = PANEL_VIEWPORT_PAD_PX
 
-  if (btnRect.top + panelHeight + 16 > innerHeight) {
-    panel.style.top = ''
-    panel.style.bottom = innerHeight - btnRect.bottom + 'px'
-  } else {
-    panel.style.top = btnRect.top + 'px'
-    panel.style.bottom = ''
-  }
+  panel.style.maxHeight = innerHeight - 2 * pad + 'px'
+  const panelHeight = panel.offsetHeight
 
-  const gap = 8
+  let top = btnRect.top
+  if (top + panelHeight + pad > innerHeight) top = btnRect.bottom - panelHeight
+  top = Math.max(pad, Math.min(top, innerHeight - panelHeight - pad))
+
+  panel.style.top = top + 'px'
+  panel.style.bottom = ''
+
   if (onLeft) {
-    panel.style.left = menuRect.right + gap + 'px'
+    panel.style.left = menuRect.right + PANEL_GAP_PX + 'px'
     panel.style.right = ''
   } else {
     panel.style.left = ''
-    panel.style.right = innerWidth - menuRect.left + gap + 'px'
+    panel.style.right = innerWidth - menuRect.left + PANEL_GAP_PX + 'px'
   }
 }
 
@@ -57,6 +60,10 @@ function createPanel(
   function position(): void {
     positionPanel(panel, button.getBoundingClientRect(), menu, iframe)
   }
+
+  new ResizeObserver(() => {
+    if (isOpen) position()
+  }).observe(panel)
 
   function open(): void {
     closeSiblings()
@@ -281,10 +288,7 @@ export function createPanelManager(deps: {
     y = Math.max(pad, Math.min(y, innerHeight - menuRect.height - pad))
     menu.style.left = x + 'px'
     menu.style.top = y + 'px'
-    if (typography.isOpen()) typography.position()
-    if (settings.isOpen()) settings.position()
-    if (theme.isOpen()) theme.position()
-    if (exporter.isOpen()) exporter.position()
+    repositionOpen()
   })
 
   doc.addEventListener('mouseup', () => {
@@ -299,6 +303,15 @@ export function createPanelManager(deps: {
       void chrome.storage.local.set({ 'booklike-menu-pos': { x, y } })
     }
   })
+
+  function repositionOpen(): void {
+    if (typography.isOpen()) typography.position()
+    if (settings.isOpen()) settings.position()
+    if (theme.isOpen()) theme.position()
+    if (exporter.isOpen()) exporter.position()
+  }
+
+  contentWindow.addEventListener('resize', repositionOpen)
 
   const panelEntries = [
     { panel: typography, el: typographyPanel },
