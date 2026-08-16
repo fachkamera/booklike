@@ -21,6 +21,17 @@
   --font-literata: 'Literata', Georgia, serif;
   --color-stone-850: oklch(24.2% 0.0065 45.17);
   --shadow-bevel: 0 1px 0 color-mix(in oklab, var(--color-stone-100) 16%, transparent) inset, 0 1px 2px black;
+
+  --animate-pulse-deep: pulse-deep 1s var(--ease-out-quad) infinite;
+  @keyframes pulse-deep {
+    0%,
+    100% {
+      opacity: 0.25;
+    }
+    40% {
+      opacity: 1;
+    }
+  }
 }
 
 @utility font-garamond {
@@ -36,14 +47,6 @@
 #display ::selection {
   background: var(--color-yellow-400);
   color: var(--color-stone-900);
-}
-
-/* Dict loader dots inherit reading surface text color */
-.dict-loader {
-  color: var(--color-stone-900);
-}
-.display-dark .dict-loader {
-  color: var(--color-white);
 }
 
 @page {

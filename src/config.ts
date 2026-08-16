@@ -74,7 +74,76 @@ export const DEDUP_ATTRIBUTION_MAX_CHARS = 60
 export const MAX_BYLINE_AUTHORS = 3
 
 /** Minimum character length of a selected word to trigger dictionary lookup. */
-export const DICT_MIN_CHARS = 3
+export const DICT_MIN_CHARS = 2
+
+/** Parts of speech shown per dictionary entry; the rest are dropped as long-tail senses. */
+export const DICT_MAX_POS = 3
+
+/** Gap (px) between the selected word and the dictionary popover. */
+export const DICT_POPOVER_GAP_PX = 8
+
+/** Minimum distance (px) the dictionary popover keeps from the viewport edges. */
+export const DICT_POPOVER_VIEWPORT_MARGIN_PX = 8
+
+/**
+ * Height (px) the dictionary popover falls back to when neither side of the selection
+ * has room for it, as in a very short window.
+ */
+export const DICT_POPOVER_MIN_HEIGHT_PX = 120
+
+/** Speech rate for the speechSynthesis pronunciation fallback (1 = normal). */
+export const DICT_SPEECH_RATE = 0.9
+
+/** Max size (bytes) of a pronunciation audio file; larger downloads are dropped before base64 encoding. */
+export const DICT_AUDIO_MAX_BYTES = 2_000_000
+
+/** Max time (ms) the pronunciation button stays locked before accepting clicks again. */
+export const DICT_AUDIO_MAX_MS = 10000
+
+/**
+ * Time (ms) allowed to get pronunciation audio playing before falling back to speech
+ * synthesis. The download only starts on click, so this has to cover the whole round trip
+ * plus decoding; the button shows its loading state well before this elapses.
+ */
+export const DICT_AUDIO_DEADLINE_MS = 4000
+
+/**
+ * Time (ms) all pronunciation downloads pause after Commons answers 403/429. Retrying into
+ * a rate limit is what earns a longer one, so the fallback to speech synthesis takes over
+ * for the duration. Commons does send `Retry-After`, but without a host permission for
+ * upload.wikimedia.org the response is CORS-filtered and the header is not among the ones
+ * it exposes, so this fixed pause is all we have to go on.
+ */
+export const DICT_AUDIO_RATELIMIT_COOLDOWN_MS = 600_000
+
+/**
+ * Consecutive failed pronunciation downloads that trigger the same cooldown as an outright
+ * 403. Without a host permission for upload.wikimedia.org a rate-limited response that
+ * omits CORS headers reaches us as a bare network error, indistinguishable from being
+ * offline — but a genuine blip does not repeat this many times in a row, while a rate limit
+ * always does. Counted across service worker restarts, since it dies between clicks.
+ */
+export const DICT_AUDIO_FAILURE_STREAK_MAX = 3
+
+/**
+ * Time (ms) the service worker gives the pronunciation download before aborting. Longer
+ * than the playback deadline above so a slow download still lands in the cache and makes
+ * the next click on the same word instant.
+ */
+export const DICT_AUDIO_FETCH_TIMEOUT_MS = 8000
+
+/** Pronunciation recordings kept in memory; oldest is dropped past this. */
+export const DICT_AUDIO_CACHE_MAX = 30
+
+/**
+ * Time (ms) a pronunciation click may stay pending before the button shows its loading
+ * state. Cached audio starts well inside this, so the state only appears when the download
+ * or speech synthesis is actually slow.
+ */
+export const DICT_AUDIO_LOADING_DELAY_MS = 250
+
+/** Time (ms) allowed for speech synthesis to actually start before the button unlocks. */
+export const DICT_SPEECH_START_MS = 1000
 
 /** Time (ms) to wait for beforeprint event before assuming print was blocked by CSP sandbox. */
 export const PRINT_SANDBOX_DETECT_MS = 300

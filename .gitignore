@@ -4,3 +4,10 @@ node_modules
 .DS_Store
 dist/
 releases/
+
+# Raw wiktextract extract for scripts/build-dict.mjs — multi-GB, never committed.
+# The generated shards in src/assets/dict/ are what ships.
+.cache/
+*.jsonl
+*.jsonl.gz
+*.parts/

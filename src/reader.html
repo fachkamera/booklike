@@ -218,7 +218,7 @@
           Layout
         </button>
       </div>
-      <div class="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+      <div class="min-h-0 flex-1 overflow-y-auto overscroll-none">
         <div id="typographyTab-font" class="typography-tab-content pt-2">
           <div class="flex flex-col gap-6">
             <fieldset>
@@ -562,7 +562,7 @@
           About
         </button>
       </div>
-      <div class="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+      <div class="min-h-0 flex-1 overflow-y-auto overscroll-none">
         <div id="settingsTab-reader" class="settings-tab-content pt-2">
           <div class="flex flex-col gap-1">
             <div class="flex items-center justify-between gap-6 px-1 py-2">
@@ -662,12 +662,12 @@
                     <td class="py-1.5 font-mono">Home / End</td>
                   </tr>
                   <tr class="border-b border-current/10">
-                    <td class="py-1.5 pr-3 opacity-80">Larger / smaller text</td>
-                    <td class="py-1.5 font-mono">+ / −</td>
+                    <td class="py-1.5 pr-3 opacity-80">Zoom text</td>
+                    <td class="py-1.5 font-mono">+ / -</td>
                   </tr>
                   <tr>
                     <td class="py-1.5 pr-3 opacity-80">Zoom whole page</td>
-                    <td class="py-1.5 font-mono"><span id="zoomKey"></span>+/−</td>
+                    <td class="py-1.5 font-mono"><span id="zoomKey"></span>+ / -</td>
                   </tr>
                   <tr class="border-t border-current/10">
                     <td class="py-1.5 pr-3 opacity-80">Activate BookLike</td>
@@ -725,6 +725,23 @@
                 </svg>
                 Report a bug
               </a>
+              <p class="opacity-50">
+                Dictionary data adapted from
+                <a
+                  href="https://en.wiktionary.org"
+                  target="_blank"
+                  rel="noopener"
+                  class="underline hover:opacity-100 focus-visible:outline-2 focus-visible:outline-yellow-600 dark:focus-visible:outline-yellow-400"
+                  >Wiktionary</a
+                >, licensed under
+                <a
+                  href="https://creativecommons.org/licenses/by-sa/4.0/"
+                  target="_blank"
+                  rel="noopener"
+                  class="underline hover:opacity-100 focus-visible:outline-2 focus-visible:outline-yellow-600 dark:focus-visible:outline-yellow-400"
+                  >CC BY-SA 4.0</a
+                >.
+              </p>
             </div>
           </div>
         </div>
@@ -755,7 +772,7 @@
           Advanced
         </button>
       </div>
-      <div class="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+      <div class="min-h-0 flex-1 overflow-y-auto overscroll-none">
         <div id="themeTab-color" class="theme-tab-content pt-2">
           <div class="flex flex-col gap-6">
             <fieldset>
@@ -820,7 +837,7 @@
     <div
       id="exportPanel"
       inert
-      class="fixed z-50 flex flex-col overflow-y-auto overscroll-contain rounded-2xl border border-stone-200 bg-white/80 p-1.5 text-black opacity-0 backdrop-blur-lg dark:border-stone-900 dark:bg-black/80 dark:text-white"
+      class="fixed z-50 flex flex-col overflow-y-auto overscroll-none rounded-2xl border border-stone-200 bg-white/80 p-1.5 text-black opacity-0 backdrop-blur-lg dark:border-stone-900 dark:bg-black/80 dark:text-white"
     >
       <div class="flex flex-col">
         <button

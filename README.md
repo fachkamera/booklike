@@ -31,3 +31,8 @@ pnpm install && pnpm build
 ```
 
 Then load the `dist/` folder as an unpacked extension in Chrome: `chrome://extensions` → enable Developer mode → Load unpacked.
+
+## License
+
+- BookLike is [MIT licensed](LICENSE).
+- Dictionary data in `src/assets/dict/` is adapted from [Wiktionary](https://en.wiktionary.org) and licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
