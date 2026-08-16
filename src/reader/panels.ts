@@ -18,7 +18,12 @@ function positionPanel(
   const onLeft = menuRect.left < innerWidth / 2
   const pad = PANEL_VIEWPORT_PAD_PX
 
-  panel.style.maxHeight = innerHeight - 2 * pad + 'px'
+  panel.style.maxHeight = Math.max(0, innerHeight - 2 * pad) + 'px'
+  panel.style.maxWidth =
+    Math.max(
+      0,
+      (onLeft ? innerWidth - (menuRect.right + PANEL_GAP_PX) : menuRect.left - PANEL_GAP_PX) - pad,
+    ) + 'px'
   const panelHeight = panel.offsetHeight
 
   let top = btnRect.top

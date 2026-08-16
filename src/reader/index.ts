@@ -250,21 +250,11 @@ function isElement(target: EventTarget | null): target is Element {
   return !!target && 'nodeType' in target && target.nodeType === 1
 }
 
-function hasScrollableAncestor(target: Element, root: HTMLElement): boolean {
-  let el: Element | null = target
-  while (el && root.contains(el)) {
-    const overflowY = el.ownerDocument.defaultView?.getComputedStyle(el).overflowY
-    if ((overflowY === 'auto' || overflowY === 'scroll') && el.scrollHeight > el.clientHeight) return true
-    el = el.parentElement
-  }
-  return false
-}
-
 function bindWheelNavigation(
   doc: Document,
   pagination: ReturnType<typeof createPagination>,
   lightbox: ReturnType<typeof createLightbox>,
-  scrollablePanels: HTMLElement[],
+  panels: HTMLElement[],
 ): void {
   const wheelDeltas: number[] = []
   let wheelLocked = false
@@ -274,7 +264,7 @@ function bindWheelNavigation(
     (e) => {
       if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return
       const { target } = e
-      if (isElement(target) && scrollablePanels.some((panel) => hasScrollableAncestor(target, panel))) return
+      if (isElement(target) && panels.some((panel) => panel.contains(target))) return
       e.preventDefault()
       const now = Date.now()
       const gap = now - lastWheelTime
@@ -563,7 +553,13 @@ export async function launchReader(
   syncSettingsUI(doc, state)
   bindSettingsControls(doc, state, ctx, measurePreservingAnchor, dict, settingsPanel, themePanel)
 
-  bindWheelNavigation(doc, pagination, lightbox, [typographyPanel, settingsPanel, themePanel, exportPanel])
+  bindWheelNavigation(doc, pagination, lightbox, [
+    typographyPanel,
+    settingsPanel,
+    themePanel,
+    exportPanel,
+    dict.popover,
+  ])
   bindKeyboardNavigation(doc, pagination, lightbox, panels, dict, state, ctx, measurePreservingAnchor)
   bindNavigationButtons(btnPagePrev, btnPageNext, pagination, lightbox)
   bindOutsideClickDismissal(doc, dict)

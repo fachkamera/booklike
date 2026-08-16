@@ -6,7 +6,9 @@
     "dev": "node scripts/build.mjs --watch",
     "build": "node scripts/build.mjs --prod",
     "release": "node scripts/build-release.mjs",
-    "lint": "eslint src"
+    "build-dict": "node scripts/build-dict.mjs",
+    "lint": "eslint src",
+    "test": "node --test src/*.test.ts"
   },
   "keywords": [
     "chrome-extension",
@@ -22,6 +24,7 @@
     "@eslint/js": "^10.0.1",
     "@tailwindcss/cli": "^4.1.18",
     "@tailwindcss/typography": "^0.5.19",
+    "@types/node": "^26.2.0",
     "chrome-types": "^0.1.414",
     "esbuild": "^0.27.3",
     "eslint": "^10.0.3",

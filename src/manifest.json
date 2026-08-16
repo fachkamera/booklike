@@ -19,7 +19,7 @@
     }
   },
   "permissions": ["activeTab", "scripting", "storage", "contextMenus"],
-  "host_permissions": ["https://api.booklike.app/*", "https://api.dictionaryapi.dev/*"],
+  "host_permissions": ["https://api.booklike.app/*"],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
   },

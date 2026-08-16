@@ -1,10 +1,64 @@
 import './types'
 import { loadPrefs, PREFS_KEY, type BooklikePrefs } from './prefs'
 import { type EpubImage } from './epub'
-import { READER_ACTIVATION_GRACE_MS } from './config'
+import {
+  DICT_AUDIO_FAILURE_STREAK_MAX,
+  DICT_AUDIO_FETCH_TIMEOUT_MS,
+  DICT_AUDIO_MAX_BYTES,
+  DICT_AUDIO_RATELIMIT_COOLDOWN_MS,
+  READER_ACTIVATION_GRACE_MS,
+} from './config'
+import { COMMONS_PREFIX, lookup, type AudioResponse } from './dict'
 
 const PROXY_IMAGE_API = 'https://api.booklike.app/v1/images/fetch'
 const IMG_SRC = /<img\b[^>]*?\ssrc="([^"]+)"/gi
+
+const AUDIO_CONTENT_TYPES = new Set(['application/octet-stream', 'application/ogg', 'application/x-ogg'])
+
+/** Session-scoped so both outlive a service worker restart but not a browser restart. */
+const AUDIO_COOLDOWN_KEY = 'booklike-audio-cooldown-until'
+const AUDIO_FAILURES_KEY = 'booklike-audio-failures'
+
+let audioCooldownUntil: number | null = null
+let audioFailures: number | null = null
+
+async function audioCooldownActive(): Promise<boolean> {
+  if (audioCooldownUntil === null) {
+    const stored = await chrome.storage.session.get(AUDIO_COOLDOWN_KEY)
+    audioCooldownUntil = Number(stored[AUDIO_COOLDOWN_KEY] ?? 0)
+  }
+  return audioCooldownUntil > Date.now()
+}
+
+async function startAudioCooldown(): Promise<void> {
+  audioCooldownUntil = Date.now() + DICT_AUDIO_RATELIMIT_COOLDOWN_MS
+  audioFailures = 0
+  await chrome.storage.session.set({
+    [AUDIO_COOLDOWN_KEY]: audioCooldownUntil,
+    [AUDIO_FAILURES_KEY]: 0,
+  })
+}
+
+/** Any answer at all, even a 404, proves the connection works; the streak starts over. */
+async function clearAudioFailures(): Promise<void> {
+  if (audioFailures === 0) return
+  audioFailures = 0
+  await chrome.storage.session.set({ [AUDIO_FAILURES_KEY]: 0 })
+}
+
+/** A network error that repeats is the rate limit we cannot see, so it earns the cooldown. */
+async function noteAudioFailure(): Promise<void> {
+  if (audioFailures === null) {
+    const stored = await chrome.storage.session.get(AUDIO_FAILURES_KEY)
+    audioFailures = Number(stored[AUDIO_FAILURES_KEY] ?? 0)
+  }
+  audioFailures++
+  if (audioFailures >= DICT_AUDIO_FAILURE_STREAK_MAX) {
+    await startAudioCooldown()
+    return
+  }
+  await chrome.storage.session.set({ [AUDIO_FAILURES_KEY]: audioFailures })
+}
 
 type IconPaths = Record<number, string>
 
@@ -13,8 +67,8 @@ type BooklikeMessage =
   | { type: 'booklike-kill-js' }
   | { type: 'booklike-print' }
   | { type: 'booklike-freeze-title'; title: string }
-  | { type: 'booklike-fetch-url'; url: string }
-  | { type: 'booklike-dict-lookup'; word: string }
+  | { type: 'booklike-fetch-audio'; url: string }
+  | { type: 'booklike-dict-lookup'; word: string; deliberateCapital?: boolean }
   | { type: 'booklike-fetch-epub-images'; content: string }
   | { type: 'booklike-create-iframe' }
 
@@ -132,25 +186,54 @@ chrome.runtime.onMessage.addListener((msg: BooklikeMessage, sender, sendResponse
   }
 
   if (msg.type === 'booklike-dict-lookup' && msg.word) {
-    fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(msg.word))
-      .then((r) => (r.ok ? (r.json() as Promise<unknown>) : null))
-      .then((data) => sendResponse({ data }))
-      .catch(() => sendResponse({ data: null }))
+    void lookup(msg.word, msg.deliberateCapital)
+      .then((entry) => sendResponse({ entry, unreachable: false }))
+      .catch(() => sendResponse({ entry: null, unreachable: true }))
     return true
   }
 
-  if (msg.type === 'booklike-fetch-url' && msg.url) {
-    fetch(msg.url)
-      .then((r) => r.arrayBuffer())
-      .then((buf) => {
+  if (msg.type === 'booklike-fetch-audio') {
+    if (!msg.url?.startsWith(COMMONS_PREFIX)) {
+      sendResponse({ audio: null, failure: 'permanent' } satisfies AudioResponse)
+      return true
+    }
+    void (async () => {
+      const respond = (res: AudioResponse): void => sendResponse(res)
+      if (await audioCooldownActive()) {
+        respond({ audio: null, failure: 'ratelimit' })
+        return
+      }
+      try {
+        const r = await fetch(msg.url, { signal: AbortSignal.timeout(DICT_AUDIO_FETCH_TIMEOUT_MS) })
+        await clearAudioFailures()
+        if (r.status === 403 || r.status === 429) {
+          await startAudioCooldown()
+          respond({ audio: null, failure: 'ratelimit' })
+          return
+        }
+        if (!r.ok) {
+          respond({ audio: null, failure: r.status >= 500 ? 'transient' : 'permanent' })
+          return
+        }
+        const type = (r.headers.get('content-type') ?? '').split(';')[0].trim().toLowerCase()
+        if (type && !type.startsWith('audio/') && !AUDIO_CONTENT_TYPES.has(type)) {
+          respond({ audio: null, failure: 'permanent' })
+          return
+        }
+        const buf = await r.arrayBuffer()
+        if (buf.byteLength > DICT_AUDIO_MAX_BYTES) {
+          respond({ audio: null, failure: 'permanent' })
+          return
+        }
         const bytes = new Uint8Array(buf)
         let binary = ''
         for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i])
-        const b64 = btoa(binary)
-        const mime = msg.url.endsWith('.ogg') ? 'audio/ogg' : 'audio/mpeg'
-        sendResponse({ dataUrl: `data:${mime};base64,${b64}` })
-      })
-      .catch(() => sendResponse({ dataUrl: null }))
+        respond({ audio: btoa(binary) })
+      } catch (_) {
+        await noteAudioFailure()
+        respond({ audio: null, failure: 'transient' })
+      }
+    })()
     return true
   }
 
