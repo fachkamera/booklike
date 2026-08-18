@@ -246,6 +246,10 @@ function bindSettingsControls(
   })
 }
 
+function isElement(target: EventTarget | null): target is Element {
+  return !!target && 'nodeType' in target && target.nodeType === 1
+}
+
 function hasScrollableAncestor(target: Element, root: HTMLElement): boolean {
   let el: Element | null = target
   while (el && root.contains(el)) {
@@ -270,8 +274,7 @@ function bindWheelNavigation(
     (e) => {
       if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return
       const { target } = e
-      if (target instanceof Element && scrollablePanels.some((panel) => hasScrollableAncestor(target, panel)))
-        return
+      if (isElement(target) && scrollablePanels.some((panel) => hasScrollableAncestor(target, panel))) return
       e.preventDefault()
       const now = Date.now()
       const gap = now - lastWheelTime

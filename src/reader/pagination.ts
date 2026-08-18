@@ -10,8 +10,8 @@ function tryPushImageToFirstPage(
 ): { el: HTMLElement; img: HTMLImageElement } | null {
   const firstImgEl = container.querySelector<HTMLElement>('figure, img.w-full')
   const firstImg =
-    firstImgEl instanceof HTMLImageElement
-      ? firstImgEl
+    firstImgEl?.tagName === 'IMG'
+      ? (firstImgEl as HTMLImageElement)
       : (firstImgEl?.querySelector<HTMLImageElement>('img') ?? null)
   if (!firstImgEl || !firstImg) return null
 
@@ -109,7 +109,7 @@ export function createPagination(deps: {
           delete table.dataset.booklikeOverflow
         }
         if (!table.nextElementSibling?.classList.contains('booklike-table-placeholder')) {
-          const p = document.createElement('p')
+          const p = container.ownerDocument.createElement('p')
           p.className = 'booklike-table-placeholder'
           p.textContent = '[Table removed — too wide for reader view]'
           table.after(p)
