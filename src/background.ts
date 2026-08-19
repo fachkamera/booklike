@@ -254,7 +254,11 @@ chrome.action.onClicked.addListener((tab) => {
 
 const MENU_ID = 'booklike-read'
 
+let menuCreated = false
+
 function createContextMenu() {
+  if (menuCreated) return
+  menuCreated = true
   chrome.contextMenus.create({
     id: MENU_ID,
     title: 'Read in BookLike',
@@ -263,15 +267,25 @@ function createContextMenu() {
   })
 }
 
-function updateMenuVisibility(readerActive: boolean) {
-  void chrome.contextMenus.update(MENU_ID, { visible: !readerActive })
+function removeContextMenu() {
+  if (!menuCreated) return
+  menuCreated = false
+  void chrome.contextMenus.remove(MENU_ID).catch(() => {})
 }
 
-chrome.runtime.onInstalled.addListener(() => {
-  void loadPrefs().then((prefs) => {
-    if (prefs.contextMenu) createContextMenu()
-  })
-})
+function updateMenuVisibility(readerActive: boolean) {
+  if (!menuCreated) return
+  void chrome.contextMenus.update(MENU_ID, { visible: !readerActive }).catch(() => {})
+}
+
+async function reconcileContextMenu() {
+  await chrome.contextMenus.removeAll()
+  menuCreated = false
+  const prefs = await loadPrefs()
+  if (prefs.contextMenu) createContextMenu()
+}
+
+void reconcileContextMenu()
 
 chrome.storage.onChanged.addListener((changes, area) => {
   if (area !== 'local' || !changes[PREFS_KEY]) return
@@ -279,7 +293,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
   if (prefs.contextMenu) {
     createContextMenu()
   } else {
-    void chrome.contextMenus.remove(MENU_ID)
+    removeContextMenu()
   }
 })
 
