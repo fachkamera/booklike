@@ -119,9 +119,9 @@ function killPageJS() {
   window.setInterval = ((..._args: Parameters<typeof setInterval>): number => {
     return 0
   }) as typeof setInterval
-  window.requestAnimationFrame = ((..._args: Parameters<typeof requestAnimationFrame>): number => {
+  window.requestAnimationFrame = (..._args: Parameters<typeof requestAnimationFrame>): number => {
     return 0
-  }) as typeof requestAnimationFrame
+  }
   MessagePort.prototype.postMessage = () => {}
   Object.defineProperty(window, 'MessageChannel', {
     value: class {

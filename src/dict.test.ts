@@ -14,13 +14,13 @@ const ASSETS = new URL('./assets/', import.meta.url)
   runtime: { getURL: (path: string) => new URL(path, ASSETS).href },
 }
 const realFetch = globalThis.fetch
-globalThis.fetch = ((input: RequestInfo | URL, init?: RequestInit) => {
+globalThis.fetch = (input: RequestInfo | URL, init?: RequestInit) => {
   const url = input instanceof Request ? input.url : String(input)
   if (!url.startsWith('file:')) return realFetch(input, init)
   // Missing shards reject in the extension too, and `lookup` reads that as "unknown word".
   if (!existsSync(new URL(url))) return Promise.reject(new Error('not found'))
   return Promise.resolve(new Response(readFileSync(new URL(url))))
-}) as typeof fetch
+}
 
 const { lookup } = await import('./dict.ts')
 
