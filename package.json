@@ -2,6 +2,15 @@
   "name": "booklike",
   "version": "1.2.0",
   "description": "Reader mode with book-like pagination. Dark mode, dictionary, epub export.",
+  "license": "MIT",
+  "homepage": "https://booklike.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fachkamera/booklike.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fachkamera/booklike/issues"
+  },
   "scripts": {
     "dev": "node scripts/build.mjs --watch",
     "build": "node scripts/build.mjs --prod",
