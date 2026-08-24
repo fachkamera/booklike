@@ -8,8 +8,9 @@
     "noEmit": true,
     "allowImportingTsExtensions": true,
     "strict": true,
+    "erasableSyntaxOnly": true,
     "skipLibCheck": true,
     "types": ["chrome-types", "node"]
   },
-  "include": ["src"]
+  "include": ["src", "scripts"]
 }

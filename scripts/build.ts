@@ -1,16 +1,26 @@
-import { build, context } from 'esbuild'
+import { build, context, type BuildOptions } from 'esbuild'
 import { cpSync, rmSync, watch, readFileSync, writeFileSync } from 'fs'
 import { spawn } from 'child_process'
 
 const isProd = process.argv.includes('--prod')
 const isFirefox = process.argv.includes('--firefox')
 
+interface Manifest {
+  background: { service_worker?: string; scripts?: string[] }
+  key?: string
+}
+
+const readManifest = () => JSON.parse(readFileSync('src/manifest.json', 'utf8')) as Manifest
+
+const writeManifest = (manifest: Manifest) => {
+  if (isFirefox) delete manifest.background.service_worker
+  else delete manifest.background.scripts
+  writeFileSync('dist/manifest.json', JSON.stringify(manifest, null, 2))
+}
+
 rmSync('dist', { recursive: true, force: true })
 cpSync('src/assets', 'dist', { recursive: true })
-const manifest = JSON.parse(readFileSync('src/manifest.json', 'utf8'))
-if (isFirefox) delete manifest.background.service_worker
-else delete manifest.background.scripts
-writeFileSync('dist/manifest.json', JSON.stringify(manifest, null, 2))
+writeManifest(readManifest())
 cpSync('src/reader.html', 'dist/reader.html')
 cpSync('src/options.html', 'dist/options.html')
 
@@ -22,7 +32,7 @@ const tw = spawn('./node_modules/.bin/tailwindcss', twArgs, {
   stdio: 'inherit',
 })
 
-const sharedOptions = {
+const sharedOptions: BuildOptions = {
   outdir: 'dist',
   bundle: true,
   target: 'chrome114',
@@ -34,7 +44,7 @@ const sharedOptions = {
   },
 }
 
-const mainOptions = {
+const mainOptions: BuildOptions = {
   ...sharedOptions,
   entryPoints: ['src/background.ts', 'src/content.ts', 'src/options.ts'],
   format: 'esm',
@@ -49,12 +59,7 @@ if (isProd) {
   watch('src', { recursive: true }, (_, filename) => {
     if (filename === 'reader.html') cpSync('src/reader.html', 'dist/reader.html')
     if (filename === 'options.html') cpSync('src/options.html', 'dist/options.html')
-    if (filename === 'manifest.json') {
-      const m = JSON.parse(readFileSync('src/manifest.json', 'utf8'))
-      if (isFirefox) delete m.background.service_worker
-      else delete m.background.scripts
-      writeFileSync('dist/manifest.json', JSON.stringify(m, null, 2))
-    }
+    if (filename === 'manifest.json') writeManifest(readManifest())
   })
   console.log('Watching...')
 }

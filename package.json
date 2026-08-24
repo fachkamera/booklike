@@ -12,12 +12,13 @@
     "url": "https://github.com/fachkamera/booklike/issues"
   },
   "scripts": {
-    "dev": "node scripts/build.mjs --watch",
-    "build": "node scripts/build.mjs --prod",
-    "release": "node scripts/build-release.mjs",
-    "build-dict": "node scripts/build-dict.mjs",
-    "lint": "eslint src",
-    "test": "node --test src/*.test.ts"
+    "dev": "node scripts/build.ts --watch",
+    "build": "node scripts/build.ts --prod",
+    "release": "node scripts/build-release.ts",
+    "build-dict": "node scripts/build-dict.ts",
+    "lint": "eslint src scripts",
+    "test": "node --test src/*.test.ts",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [
     "chrome-extension",
@@ -29,6 +30,9 @@
   "type": "module",
   "author": "Markus Mayer",
   "packageManager": "pnpm@11.22.0",
+  "engines": {
+    "node": ">=24"
+  },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@tailwindcss/cli": "^4.3.3",

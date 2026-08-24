@@ -24,7 +24,7 @@ globalThis.fetch = (input: RequestInfo | URL, init?: RequestInit) => {
 
 const { lookup } = await import('./dict.ts')
 
-const skip = existsSync(new URL('dict/', ASSETS)) ? false : 'no bundle — run scripts/build-dict.mjs'
+const skip = existsSync(new URL('dict/', ASSETS)) ? false : 'no bundle — run scripts/build-dict.ts'
 
 for (const { word, cap, w } of DICT_CASES) {
   void test(`${word}${cap ? ' (deliberate capital)' : ''} -> ${w ?? 'nothing'}`, { skip }, async () => {

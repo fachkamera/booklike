@@ -1,11 +1,11 @@
 // Builds the bundled dictionary from a kaikki.org wiktextract JSONL extract.
 //
-//   node scripts/build-dict.mjs            # uses the cached extract, downloads if missing
-//   node scripts/build-dict.mjs --refetch  # discards the cache and downloads again
-//   cat some-other.jsonl | node scripts/build-dict.mjs
+//   node scripts/build-dict.ts            # uses the cached extract, downloads if missing
+//   node scripts/build-dict.ts --refetch  # discards the cache and downloads again
+//   cat some-other.jsonl | node scripts/build-dict.ts
 //
-// Writes gzipped shards to src/assets/dict/, which scripts/build.mjs already copies
-// verbatim into dist/. Note that build.mjs copies src/assets at startup only, so a
+// Writes gzipped shards to src/assets/dict/, which scripts/build.ts already copies
+// verbatim into dist/. Note that build.ts copies src/assets at startup only, so a
 // running watch process has to be restarted to pick up a rebuilt dictionary.
 
 import { createInterface } from 'node:readline'
@@ -21,7 +21,8 @@ import {
 } from 'node:fs'
 import { DICT_MIN_CHARS } from '../src/config.ts'
 import { shardKey } from '../src/dict.ts'
-import { DEFAULT_OUT, fetchDictSource } from './fetch-dict-source.mjs'
+import type { DictGloss, DictRecord } from '../src/dict.ts'
+import { DEFAULT_OUT, fetchDictSource } from './fetch-dict-source.ts'
 
 /** Definitions kept per part of speech, taken round-robin across etymologies. */
 const MAX_GLOSSES = 4
@@ -39,18 +40,68 @@ const COMMONS_PREFIX = 'https://upload.wikimedia.org/wikipedia/commons/'
 
 const OUT_DIR = 'src/assets/dict'
 
+/** The fields of a wiktextract entry this build reads. */
+interface Sound {
+  ipa?: string
+  audio?: string
+  ogg_url?: string
+  tags?: string[]
+}
+
+interface Sense {
+  glosses?: string[]
+  examples?: { type?: string; text?: string }[]
+  tags?: string[]
+  topics?: string[]
+  form_of?: { word?: string }[]
+}
+
+interface Entry {
+  word?: string
+  pos?: string
+  lang?: string
+  senses?: Sense[]
+  sounds?: Sound[]
+}
+
+/** A gloss while it is still being filtered; the flags are stripped before writing. */
+interface BuildGloss extends DictGloss {
+  dead?: boolean
+  marginal?: boolean
+}
+
+interface BuildRecord extends DictRecord {
+  e?: { p: string; g: BuildGloss[] }[]
+}
+
+/** One word as collected from the extract, before shards are assembled. */
+interface WordRecord {
+  /** Gloss pools per part of speech, one pool per etymology. */
+  pos: Map<string, BuildGloss[][]>
+  i?: string
+  a?: string
+  /** Size of the word's own wiktextract entries, used to weigh it against inflections. */
+  b?: number
+}
+
+/** An inflection candidate: bytes of its form_of entries, and whether any is undemoted. */
+interface Stub {
+  b: number
+  plain: boolean
+}
+
 /** Shards are written here and swapped in at the end, so a failed run keeps the old bundle. */
 const TMP_DIR = `${OUT_DIR}.tmp`
 
 /** Phonemic IPA in the accent we display; falls back to any phonemic transcription. */
-function pickIpa(sounds = []) {
+function pickIpa(sounds: Sound[] = []) {
   const phonemic = sounds.filter((s) => s.ipa?.startsWith('/'))
   const ga = phonemic.find((s) => s.tags?.includes('General-American'))
   return (ga ?? phonemic[0])?.ipa
 }
 
 /** Prefer the US recordings for consistency */
-function audioRank(sound) {
+function audioRank(sound: Sound) {
   const name = sound.audio ?? ''
   if (/^en[-_]us[-_]/i.test(name)) return 0
   if (sound.tags?.some((t) => t === 'US' || t === 'General-American')) return 1
@@ -59,8 +110,10 @@ function audioRank(sound) {
 }
 
 /** Commons path of the pronunciation recording, minus the shared prefix. */
-function pickAudio(sounds = []) {
-  const usable = sounds.filter((s) => s.ogg_url?.startsWith(COMMONS_PREFIX))
+function pickAudio(sounds: Sound[] = []) {
+  const usable = sounds.filter(
+    (s): s is Sound & { ogg_url: string } => s.ogg_url?.startsWith(COMMONS_PREFIX) ?? false,
+  )
   if (!usable.length) return undefined
   let best = usable[0]
   for (const sound of usable) {
@@ -107,7 +160,7 @@ const GLOSS_POOL = MAX_GLOSSES * 3
  * sub-senses are only a pointer at another entry, in which case the parent gloss is
  * the real definition; if even that is a pointer the sense is dropped entirely.
  */
-function definitionOf(sense) {
+function definitionOf(sense: Sense) {
   const glosses = sense.glosses
   if (!glosses?.length) return null
   let text = glosses[glosses.length - 1]
@@ -116,25 +169,25 @@ function definitionOf(sense) {
 }
 
 /** Wiktionary's own usage examples; quotations are citations and far too long. */
-function exampleOf(sense) {
+function exampleOf(sense: Sense) {
   for (const ex of sense.examples ?? []) {
     if (ex.type !== 'example') continue
-    const text = (ex.text ?? '').replace(/ /g, ' ').trim()
+    const text = (ex.text ?? '').replace(/\u2003/g, ' ').trim()
     if (text && text.length <= MAX_EXAMPLE_CHARS && !text.includes('\n')) return text
   }
   return null
 }
 
 /** Glosses of one etymology, already trimmed to what a merged entry could use. */
-function glossesOf(senses) {
-  const out = []
+function glossesOf(senses: Sense[]) {
+  const out: BuildGloss[] = []
   const seen = new Set()
   for (const sense of senses) {
     if (sense.form_of) continue
     const d = definitionOf(sense)
     if (!d || seen.has(d)) continue
     seen.add(d)
-    const gloss = { d }
+    const gloss: BuildGloss = { d }
     if (sense.topics?.length) gloss.t = sense.topics[0]
     const example = exampleOf(sense)
     if (example) gloss.x = example
@@ -147,8 +200,8 @@ function glossesOf(senses) {
 }
 
 /** Wiktionary splits by etymology, so interleave pools to keep every sense-family. */
-function roundRobin(pools) {
-  const picked = []
+function roundRobin(pools: BuildGloss[][]) {
+  const picked: BuildGloss[] = []
   const cursors = pools.map(() => 0)
   while (picked.length < MAX_GLOSSES && cursors.some((c, i) => c < pools[i].length)) {
     for (let i = 0; i < pools.length && picked.length < MAX_GLOSSES; i++) {
@@ -187,8 +240,8 @@ async function sourceStream() {
   return createReadStream(DEFAULT_OUT).pipe(createGunzip())
 }
 
-const words = new Map()
-const stubs = new Map()
+const words = new Map<string, WordRecord>()
+const stubs = new Map<string, Map<string, Stub>>()
 let seen = 0
 let skipped = 0
 
@@ -196,9 +249,9 @@ const rl = createInterface({ input: await sourceStream(), crlfDelay: Infinity })
 
 for await (const line of rl) {
   if (!line) continue
-  let entry
+  let entry: Entry
   try {
-    entry = JSON.parse(line)
+    entry = JSON.parse(line) as Entry
   } catch {
     continue
   }
@@ -216,11 +269,11 @@ for await (const line of rl) {
 
   const key = word
 
-  const formOf = senses.find((s) => s.form_of?.[0]?.word)?.form_of[0].word
+  const formOf = senses.find((s) => s.form_of?.[0]?.word)?.form_of?.[0].word
   if (formOf) {
     if (formOf !== key) {
       let byLemma = stubs.get(key)
-      if (!byLemma) stubs.set(key, (byLemma = new Map()))
+      if (!byLemma) stubs.set(key, (byLemma = new Map<string, Stub>()))
       let candidate = byLemma.get(formOf)
       if (!candidate) byLemma.set(formOf, (candidate = { b: 0, plain: false }))
       candidate.b += line.length
@@ -251,14 +304,14 @@ process.stderr.write(`\nread ${seen.toLocaleString()} lines\n`)
 process.stderr.write(`${words.size.toLocaleString()} words, ${stubs.size.toLocaleString()} inflections\n`)
 process.stderr.write(`${skipped.toLocaleString()} skipped (multiword / non-Latin)\n`)
 
-const shards = new Map()
+const shards = new Map<string, Record<string, BuildRecord>>()
 /** Plain (non-dead, non-marginal) definitions of each word, for the redirect test below. */
-const plainGlosses = new Map()
+const plainGlosses = new Map<string, string[]>()
 let withIpa = 0
 let withAudio = 0
 
 for (const [word, { i, a, pos }] of words) {
-  const record = {}
+  const record: BuildRecord = {}
   if (i) {
     record.i = i
     withIpa++
@@ -290,13 +343,13 @@ for (const [word, { i, a, pos }] of words) {
  * Whether an inflected form stands on its own. Definitions that merely restate the lemma
  * say nothing about the form, so they do not count towards it.
  */
-function standsAlone(form, lemma) {
+function standsAlone(form: string, lemma: string) {
   const mentionsLemma = new RegExp(`\\b${lemma.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i')
   const own = (plainGlosses.get(form) ?? []).filter((d) => !mentionsLemma.test(d))
   return own.length >= FORM_OWN_GLOSSES
 }
 
-function outweighsInflection(form, formBytes) {
+function outweighsInflection(form: string, formBytes: number) {
   return (words.get(form)?.b ?? 0) >= formBytes * FORM_OWN_SIZE_RATIO
 }
 
@@ -304,9 +357,10 @@ let liveStubs = 0
 let bySize = 0
 
 /** Which lemma a form belongs to when several claim it */
-function pickLemma(form, byLemma, rank) {
+function pickLemma(form: string, byLemma: Map<string, Stub>, rank: boolean) {
   let candidates = [...byLemma].filter(([lemma]) => words.has(lemma) && lemma !== form)
-  const narrow = (keep) => candidates.some(keep) && (candidates = candidates.filter(keep))
+  const narrow = (keep: (candidate: [string, Stub]) => boolean) =>
+    candidates.some(keep) && (candidates = candidates.filter(keep))
   if (rank && !/['\u2019]/.test(form)) {
     narrow(([, c]) => c.plain)
     narrow(([lemma]) => lemma[0].toLowerCase() === form[0].toLowerCase())
