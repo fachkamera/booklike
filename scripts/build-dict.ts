@@ -15,6 +15,7 @@ import {
   existsSync,
   fstatSync,
   mkdirSync,
+  readFileSync,
   renameSync,
   rmSync,
   writeFileSync,
@@ -39,6 +40,22 @@ const WORD_RE = /^[\p{Lu}\p{Ll}][\p{Lu}\p{Ll}'’-]*$/u
 const COMMONS_PREFIX = 'https://upload.wikimedia.org/wikipedia/commons/'
 
 const OUT_DIR = 'src/assets/dict'
+
+/**
+ * Words that actually have a recording on audio.booklike.app, written by
+ * scripts/build-audio.ts. Missing on a first run, in which case every word wiktextract
+ * offers a recording for gets the flag — rebuild once the audio pipeline has run, so words
+ * whose recording was rejected or has vanished from Commons do not show a dead play button.
+ */
+const AUDIO_WORDS_FILE = 'scripts/audio-words.json'
+
+/**
+ * Which Commons recording each word points at, consumed by scripts/fetch-audio.ts. Lists
+ * every word wiktextract offers a recording for, whether or not one is live: the audio
+ * pipeline needs the rejected ones too, both for its licence report and so a re-run can
+ * pick up a recording that has since been re-uploaded or relicensed.
+ */
+const AUDIO_SOURCES_FILE = '.cache/audio-sources.json'
 
 /** The fields of a wiktextract entry this build reads. */
 interface Sound {
@@ -122,7 +139,7 @@ function pickAudio(sounds: Sound[] = []) {
   return best.ogg_url.slice(COMMONS_PREFIX.length)
 }
 
-/** Bare cross-references ("See about to.") are navigation, not definitions. */
+/** Bare cross-references ("See ...") are navigation, not definitions. */
 const XREF = /^\s*see\b/i
 
 /**
@@ -310,6 +327,16 @@ const plainGlosses = new Map<string, string[]>()
 let withIpa = 0
 let withAudio = 0
 
+const audioWords: Set<string> | null = existsSync(AUDIO_WORDS_FILE)
+  ? new Set(JSON.parse(readFileSync(AUDIO_WORDS_FILE, 'utf8')) as string[])
+  : null
+if (!audioWords) {
+  process.stderr.write(`${AUDIO_WORDS_FILE} missing — flagging every word with a Commons recording\n`)
+}
+
+/** Commons path -> the words using it, so the audio pipeline can fetch each one once. */
+const audioSources = new Map<string, string[]>()
+
 for (const [word, { i, a, pos }] of words) {
   const record: BuildRecord = {}
   if (i) {
@@ -317,8 +344,15 @@ for (const [word, { i, a, pos }] of words) {
     withIpa++
   }
   if (a) {
-    record.a = a
-    withAudio++
+    // Recorded before the filter, so a word whose recording was rejected or has since
+    // vanished still reaches the audio pipeline on a re-run and can be recovered.
+    const sharing = audioSources.get(a)
+    if (sharing) sharing.push(word)
+    else audioSources.set(a, [word])
+    if (!audioWords || audioWords.has(word)) {
+      record.a = true
+      withAudio++
+    }
   }
   const hasLive = [...pos.values()].some((pools) => pools.some((g) => g.some((x) => !x.dead)))
   record.e = [...pos.entries()]
@@ -417,6 +451,9 @@ for (const [key, shard] of [...shards].sort(([a], [b]) => a.localeCompare(b))) {
 
 rmSync(OUT_DIR, { recursive: true, force: true })
 renameSync(TMP_DIR, OUT_DIR)
+
+mkdirSync('.cache', { recursive: true })
+writeFileSync(AUDIO_SOURCES_FILE, JSON.stringify(Object.fromEntries(audioSources)))
 
 const entryCount = [...shards.values()].reduce((n, shard) => n + Object.keys(shard).length, 0)
 process.stderr.write(`\n${shards.size} shards, ${(total / 1e6).toFixed(1)} MB gzipped\n`)

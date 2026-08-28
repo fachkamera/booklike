@@ -1,14 +1,8 @@
-/** Fixed prefix stripped from every audio path at build time. */
-export const COMMONS_PREFIX = 'https://upload.wikimedia.org/wikipedia/commons/'
+import { DICT_AUDIO_BASE } from './config.ts'
 
-/**
- * Why a pronunciation download produced no audio. `permanent` does not retry.
- */
-export type AudioFailure = 'ratelimit' | 'permanent' | 'transient'
-
+/** Base64 of the recording, or null when it could not be fetched. */
 export interface AudioResponse {
   audio: string | null
-  failure?: AudioFailure
 }
 
 export interface DictGloss {
@@ -29,8 +23,8 @@ export interface DictPos {
 export interface DictRecord {
   /** Phonemic IPA. */
   i?: string
-  /** Commons path of the pronunciation recording, minus COMMONS_PREFIX. */
-  a?: string
+  /** Set when a pronunciation recording exists for this word. */
+  a?: true
   e?: DictPos[]
   /** Set on inflected forms; points at the lemma holding the definitions. */
   of?: string
@@ -71,8 +65,12 @@ export function shardKey(word: string): string {
   return /^[a-z]+$/.test(key) ? key : '_'
 }
 
-export function audioUrl(path: string): string {
-  return COMMONS_PREFIX + path
+/**
+ * Where the recording for a word lives. The object key is the word itself, so nothing about
+ * it has to be carried in the bundle beyond the flag saying one exists.
+ */
+export function audioUrl(word: string): string {
+  return DICT_AUDIO_BASE + encodeURIComponent(word.normalize('NFC')) + '.opus'
 }
 
 type Shard = Record<string, DictRecord>
