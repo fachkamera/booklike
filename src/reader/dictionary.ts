@@ -1,8 +1,8 @@
 import {
-  DICT_AUDIO_CACHE_MAX,
   DICT_AUDIO_DEADLINE_MS,
   DICT_AUDIO_LOADING_DELAY_MS,
   DICT_AUDIO_MAX_MS,
+  DICT_CREDITS_BASE,
   DICT_MAX_POS,
   DICT_MIN_CHARS,
   DICT_POPOVER_GAP_PX,
@@ -110,34 +110,27 @@ export function createDictionary(deps: { doc: Document; iframe: HTMLIFrameElemen
   let dictAnchorTop = 0
   let dictAnchorBottom = 0
   const dictCache = new Map<string, DictResolved | null>()
-  const audioCache = new Map<string, Promise<string | null>>()
-  const audioDead = new Set<string>()
+  const prefetched = new Set<string>()
+  /**
+   * Set the first time a pronunciation download comes back with a recording. Until then
+   * nothing is prefetched, so a reader who never uses the play button never sends a request
+   * for a word they only looked up. Deliberately per article rather than persisted: the
+   * flag only has to outlive the lookups it speeds up, and one that survives the reader is
+   * a record of who plays pronunciations, kept for nothing.
+   */
+  let audioUsed = false
+  /**
+   * Set when a download misses the playback deadline, so the next click does not make the
+   * reader sit through the same wait. The fetch still goes out and clears this again as
+   * soon as one comes back with audio, which is why no cooldown has to be timed.
+   */
+  let audioSlow = false
 
-  function fetchAudio(url: string): Promise<string | null> {
-    const cached = audioCache.get(url)
-    if (cached) {
-      audioCache.delete(url)
-      audioCache.set(url, cached)
-      return cached
-    }
-    const pending = chrome.runtime
-      .sendMessage({ type: 'booklike-fetch-audio', url })
-      .then((res: AudioResponse) => res ?? { audio: null, failure: 'transient' as const })
-      .catch((): AudioResponse => ({ audio: null, failure: 'transient' }))
-      .then(({ audio, failure }: AudioResponse) => {
-        if (audio) return audio
-        if (failure === 'permanent') markDead(url)
-        audioCache.delete(url)
-        return null
-      })
-    audioCache.set(url, pending)
-    if (audioCache.size > DICT_AUDIO_CACHE_MAX) audioCache.delete(audioCache.keys().next().value!)
-    return pending
-  }
-
-  function markDead(url: string): void {
-    audioDead.add(url)
-    if (audioDead.size > DICT_AUDIO_CACHE_MAX) audioDead.delete(audioDead.values().next().value!)
+  /** Warms the cache while the definition is being read; the click then plays immediately. */
+  function prefetchAudio(url: string): void {
+    if (!audioUsed || !url || prefetched.has(url)) return
+    prefetched.add(url)
+    void chrome.runtime.sendMessage({ type: 'booklike-prefetch-audio', url }).catch(() => {})
   }
 
   async function fetchDefinition(word: string, deliberateCapital: boolean): Promise<DictLookup> {
@@ -210,6 +203,7 @@ export function createDictionary(deps: { doc: Document; iframe: HTMLIFrameElemen
 
     const audioBtn = doc.getElementById('dictAudioBtn')
     audioBtnEl = audioBtn
+    if (audioBtn) prefetchAudio(audioBtn.dataset.url ?? '')
     audioBtn?.addEventListener('click', (e) => {
       e.stopPropagation()
       if (audioBusy) return
@@ -220,7 +214,7 @@ export function createDictionary(deps: { doc: Document; iframe: HTMLIFrameElemen
       const isStale = (): boolean => seq !== audioSeq
       audioTimer = setTimeout(abortAudio, DICT_AUDIO_MAX_MS)
       audioLoadingTimer = setTimeout(() => setAudioState('loading'), DICT_AUDIO_LOADING_DELAY_MS)
-      if (!url || audioDead.has(url)) {
+      if (!url) {
         speakWord(word)
         return
       }
@@ -232,61 +226,68 @@ export function createDictionary(deps: { doc: Document; iframe: HTMLIFrameElemen
         clearDeadline()
         speakWord(word)
       }
-      audioDeadlineTimer = setTimeout(fallbackToSpeech, DICT_AUDIO_DEADLINE_MS)
+      if (audioSlow) fallbackToSpeech()
+      else
+        audioDeadlineTimer = setTimeout(() => {
+          audioSlow = true
+          fallbackToSpeech()
+        }, DICT_AUDIO_DEADLINE_MS)
 
-      void fetchAudio(url)
-        .then((audio: string | null) => {
+      void chrome.runtime
+        .sendMessage({ type: 'booklike-fetch-audio', url })
+        .then(async (res: AudioResponse | undefined) => {
+          const encoded = res?.audio
+          // Read off the response rather than off playback: a download that only lands after
+          // the speech fallback has taken over still proves the button is in use and that the
+          // connection has recovered, so the next click can wait for the recording again.
+          if (encoded) {
+            audioSlow = false
+            audioUsed = true
+          }
           if (settled || isStale()) return
-          if (!audio) {
+          if (!encoded) {
             fallbackToSpeech()
             return
           }
-          const bytes = Uint8Array.from(atob(audio), (c) => c.charCodeAt(0))
-          let ctx: AudioContext
+          const bytes = Uint8Array.from(atob(encoded), (c) => c.charCodeAt(0))
+          const ctx = new AudioContext()
+          // Every path out of here closes the context: a browser allows only a handful at
+          // once, so one leaked per failed decode is enough to make later clicks throw on
+          // construction and silently demote the button to speech for the rest of the session.
           try {
-            ctx = new AudioContext()
-          } catch {
-            fallbackToSpeech()
-            return
-          }
-          void ctx
-            .decodeAudioData(bytes.buffer)
-            .then(async (buffer) => {
-              if (settled || isStale()) {
-                void ctx.close()
-                return
-              }
-              if (ctx.state === 'suspended') await ctx.resume()
-              if (settled || isStale() || ctx.state !== 'running') {
-                void ctx.close()
-                fallbackToSpeech()
-                return
-              }
-              settled = true
-              clearDeadline()
-              const source = ctx.createBufferSource()
-              source.buffer = buffer
-              source.connect(ctx.destination)
-              source.onended = () => {
-                void ctx.close()
-                endAudio()
-              }
-              source.start(0)
-              setAudioState('playing')
-              stopDictAudio = () => {
-                source.onended = null
-                source.stop()
-                void ctx.close()
-              }
-            })
-            .catch(() => {
+            const buffer = await ctx.decodeAudioData(bytes.buffer)
+            if (settled || isStale()) {
+              void ctx.close()
+              return
+            }
+            if (ctx.state === 'suspended') await ctx.resume()
+            if (ctx.state !== 'running') {
               void ctx.close()
               fallbackToSpeech()
-            })
+              return
+            }
+            settled = true
+            clearDeadline()
+            const source = ctx.createBufferSource()
+            source.buffer = buffer
+            source.connect(ctx.destination)
+            source.onended = () => {
+              void ctx.close()
+              endAudio()
+            }
+            source.start(0)
+            setAudioState('playing')
+            stopDictAudio = () => {
+              source.onended = null
+              source.stop()
+              void ctx.close()
+            }
+          } catch (_) {
+            void ctx.close()
+            fallbackToSpeech()
+          }
         })
-        .catch(() => {
-          fallbackToSpeech()
-        })
+        .catch(fallbackToSpeech)
     })
   }
 
@@ -379,7 +380,7 @@ export function createDictionary(deps: { doc: Document; iframe: HTMLIFrameElemen
 
   function buildDictHTML(entry: DictResolved): string {
     const phonetic = entry.i ?? ''
-    const url = entry.a ? audioUrl(entry.a) : null
+    const url = entry.a ? audioUrl(entry.w) : null
 
     let html = '<div>'
     html += '<div class="flex items-center gap-2 mb-3">'
@@ -388,6 +389,10 @@ export function createDictionary(deps: { doc: Document; iframe: HTMLIFrameElemen
       html += `<button id="dictAudioBtn" data-state="idle" aria-label="Play pronunciation" data-url="${esc(url)}" data-word="${esc(entry.w)}" class="group flex shrink-0 items-center justify-center size-8  rounded-full text-yellow-600 hover:bg-white hover:shadow dark:text-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4"><path class="group-data-[state=loading]:animate-pulse group-data-[state=loading]:[animation-duration:900ms]" d="M13.5 4.06c0-1.336-1.616-2.005-2.56-1.06l-4.5 4.5H4.508c-1.141 0-2.318.664-2.66 1.905A9.76 9.76 0 0 0 1.5 12c0 .898.121 1.768.35 2.595.341 1.24 1.518 1.905 2.659 1.905h1.93l4.5 4.5c.945.945 2.561.276 2.561-1.06V4.06Z"/><path class="group-data-[state=playing]:animate-pulse-deep group-data-[state=loading]:opacity-0 group-data-[state=playing]:[animation-delay:150ms]" d="M18.584 5.106a.75.75 0 0 1 1.06 0c3.808 3.807 3.808 9.98 0 13.788a.75.75 0 0 1-1.06-1.06 8.25 8.25 0 0 0 0-11.668.75.75 0 0 1 0-1.06Z"/><path class="group-data-[state=playing]:animate-pulse-deep group-data-[state=loading]:opacity-0" d="M15.932 7.757a.75.75 0 0 1 1.061 0 6 6 0 0 1 0 8.486.75.75 0 0 1-1.06-1.061 4.5 4.5 0 0 0 0-6.364.75.75 0 0 1 0-1.06Z"/></svg></button>`
     }
     if (phonetic) html += `<span class="font-mono text-xs opacity-50">${esc(phonetic)}</span>`
+    if (url) {
+      const credits = DICT_CREDITS_BASE + encodeURIComponent(entry.w)
+      html += `<a href="${esc(credits)}" target="_blank" rel="noopener" title="Recording credits" aria-label="Recording credits" class="ml-auto shrink-0 opacity-25 transition-opacity hover:opacity-60"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3.5"><path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 0 1 .67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 1 1-.671-1.34l.041-.022ZM12 9a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd"/></svg></a>`
+    }
     html += '</div>'
 
     html += '<div class="flex flex-col divide-y divide-current/10 text-xs">'
