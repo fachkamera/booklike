@@ -1,5 +1,6 @@
 {
   "manifest_version": 3,
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA/jc71UFi+rTN80o++K9VuZh6G4e0U6+66gWkQVg/jvGC5xSmlbI17l8uYWvnoSBaBC02jsii8zRLYnPYPnQO5ckA7fwUy7jT33CexTVAEPgUQv0QSv5bEMC5LMYPae85H65VdSP/fb4QNGhL7akpHAEoplDduhKD9RGp9fp2lr2/r+Vy3sObFj2DS01yB4EK0XQXrkY+DfDaoZ530zgowKmOMXCF1dc/ZN5+e/aFV7tGf9L/DuR6qFwUkpNxOY6sy2vDRmP1fOUd5azm9F6/Qu/t7aYyt9DJenNCP8LEcDk6ku66ePoN4xFwKMvV/iNh3tg/V3n2ejGi9xVzjHYqdwIDAQAB",
   "minimum_chrome_version": "114",
   "browser_specific_settings": {
     "gecko": {

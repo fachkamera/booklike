@@ -13,8 +13,12 @@ interface Manifest {
 const readManifest = () => JSON.parse(readFileSync('src/manifest.json', 'utf8')) as Manifest
 
 const writeManifest = (manifest: Manifest) => {
-  if (isFirefox) delete manifest.background.service_worker
-  else delete manifest.background.scripts
+  if (isFirefox) {
+    delete manifest.key
+    delete manifest.background.service_worker
+  } else {
+    delete manifest.background.scripts
+  }
   writeFileSync('dist/manifest.json', JSON.stringify(manifest, null, 2))
 }
 
