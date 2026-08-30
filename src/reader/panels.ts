@@ -197,7 +197,6 @@ export function createPanelManager(deps: {
 
   setupTabs(doc, 'settings-tab', 'settingsTab')
   setupTabs(doc, 'typography-tab', 'typographyTab')
-  setupTabs(doc, 'theme-tab', 'themeTab')
 
   const bindPanelToggle = (btn: HTMLElement, panel: ReturnType<typeof createPanel>) =>
     btn.addEventListener('click', () => (panel.isOpen() ? panel.close() : panel.open()))

@@ -549,9 +549,17 @@
           class="settings-tab border-b-2 border-transparent px-3 py-1 select-none hover:border-current focus-visible:outline-2 focus-visible:outline-yellow-600 aria-selected:border-yellow-600 aria-selected:text-yellow-600 dark:focus-visible:outline-yellow-400 dark:aria-selected:border-yellow-400 dark:aria-selected:text-yellow-400"
           role="tab"
           aria-selected="true"
-          data-tab="reader"
+          data-tab="general"
         >
-          Reader
+          General
+        </button>
+        <button
+          class="settings-tab border-b-2 border-transparent px-3 py-1 select-none hover:border-current focus-visible:outline-2 focus-visible:outline-yellow-600 aria-selected:border-yellow-600 aria-selected:text-yellow-600 dark:focus-visible:outline-yellow-400 dark:aria-selected:border-yellow-400 dark:aria-selected:text-yellow-400"
+          role="tab"
+          aria-selected="false"
+          data-tab="shortcuts"
+        >
+          Shortcuts
         </button>
         <button
           class="settings-tab border-b-2 border-transparent px-3 py-1 select-none hover:border-current focus-visible:outline-2 focus-visible:outline-yellow-600 aria-selected:border-yellow-600 aria-selected:text-yellow-600 dark:focus-visible:outline-yellow-400 dark:aria-selected:border-yellow-400 dark:aria-selected:text-yellow-400"
@@ -563,7 +571,7 @@
         </button>
       </div>
       <div class="min-h-0 flex-1 overflow-y-auto overscroll-none">
-        <div id="settingsTab-reader" class="settings-tab-content pt-2">
+        <div id="settingsTab-general" class="settings-tab-content pt-2">
           <div class="flex flex-col gap-1">
             <div class="flex items-center justify-between gap-6 px-1 py-2">
               <span id="lbl-links" class="text-sm select-none">Links</span>
@@ -611,16 +619,97 @@
               </label>
             </div>
           </div>
-          <div class="mt-2 flex flex-col gap-2 border-t border-current/10 pt-4">
+          <div class="border-t border-current/10 pt-2">
             <button
               id="btnResetSettings"
-              class="inline self-start text-xs opacity-40 transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-yellow-600 dark:focus-visible:outline-yellow-400"
+              class="flex w-full items-center gap-3 rounded-xl px-1 py-2 text-xs opacity-50 transition-opacity hover:opacity-100 focus-visible:outline-2 focus-visible:outline-yellow-600 dark:focus-visible:outline-yellow-400"
             >
-              Reset all settings
+              <svg
+                class="size-4 shrink-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M3.5 12a8.5 8.5 0 1 1 2.6 6.1" />
+                <polyline points="3.5,6.5 3.5,12 9,12" />
+              </svg>
+              Restore all defaults
             </button>
           </div>
         </div>
-        <div id="settingsTab-about" class="settings-tab-content hidden text-xs leading-relaxed">
+        <div id="settingsTab-shortcuts" class="settings-tab-content hidden px-3 pt-2 text-xs leading-relaxed">
+          <div class="flex flex-col gap-2">
+            <table class="w-full border-collapse text-xs text-black dark:text-white">
+              <tbody
+                class="[&_code]:rounded [&_code]:bg-white [&_code]:px-1 [&_code]:py-0.5 not-dark:[&_code]:shadow dark:[&_code]:bg-black"
+              >
+                <tr class="border-b border-current/10">
+                  <td class="py-1.5 pr-3 opacity-80">Next page</td>
+                  <td class="py-1.5 font-mono">
+                    <code>→</code>
+                    <em>or</em>
+                    <code>↓</code>
+                    <em>or</em>
+                    <code>Space</code>
+                  </td>
+                </tr>
+                <tr class="border-b border-current/10">
+                  <td class="py-1.5 pr-3 opacity-80">Previous page</td>
+                  <td class="py-1.5 font-mono">
+                    <code>←</code>
+                    <em>or</em>
+                    <code>↑</code>
+                    <em>or</em>
+                    <code>Shift Space</code>
+                  </td>
+                </tr>
+                <tr class="border-b border-current/10">
+                  <td class="py-1.5 pr-3 opacity-80">First / last page</td>
+                  <td class="py-1.5 font-mono">
+                    <code>Home</code> /
+                    <code>End</code>
+                  </td>
+                </tr>
+                <tr class="border-b border-current/10">
+                  <td class="py-1.5 pr-3 opacity-80">Zoom text</td>
+                  <td class="py-1.5 font-mono">
+                    <code>+</code> /
+                    <code>-</code>
+                  </td>
+                </tr>
+                <tr class="border-b border-current/10">
+                  <td class="py-1.5 pr-3 opacity-80">Zoom whole page</td>
+                  <td class="py-1.5 font-mono">
+                    <code><span data-key="mod">Ctrl</span> +</code> /
+                    <code><span data-key="mod">Ctrl</span> -</code>
+                  </td>
+                </tr>
+                <tr class="border-t border-current/10">
+                  <td class="py-1.5 pr-3 opacity-80">Activate BookLike</td>
+                  <td class="py-1.5 font-mono">
+                    <code><span data-key="alt">Alt</span> Shift B</code>
+                  </td>
+                </tr>
+                <tr class="border-t border-current/10">
+                  <td class="py-1.5 pr-3 opacity-80">Look up a word</td>
+                  <td class="py-1.5">Double-click</td>
+                </tr>
+                <tr class="border-b border-current/10">
+                  <td class="py-1.5 pr-3 opacity-80">Zoom an image</td>
+                  <td class="py-1.5">Click</td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="opacity-50">
+              The activation shortcut can be changed in <em>Manage extensions</em>.<br />Dictionary lookup is
+              English only.
+            </p>
+          </div>
+        </div>
+        <div id="settingsTab-about" class="settings-tab-content hidden px-3 pt-2 text-xs leading-relaxed">
           <div class="flex flex-col gap-4">
             <div class="flex items-center gap-2.5">
               <svg
@@ -638,53 +727,37 @@
                   <circle cx="46" cy="51" r="13" />
                 </g>
               </svg>
-
-              <span class="text-xl font-bold tracking-tight">BookLike</span>
+              <div class="flex items-baseline gap-1.5">
+                <span class="text-xl font-bold tracking-tight">BookLike</span>
+                <span id="aboutVersion" class="text-xs opacity-40"></span>
+              </div>
             </div>
             <p>
               Read any web article like a book. No ads, no distractions,<br />
               just clean pages you can flip through.
             </p>
-            <div class="flex flex-col gap-2">
-              <p>Keyboard shortcuts:</p>
-              <table class="w-full border-collapse text-xs text-black dark:text-white">
-                <tbody>
-                  <tr class="border-b border-current/10">
-                    <td class="py-1.5 pr-3 opacity-80">Next page</td>
-                    <td class="py-1.5 font-mono">Space → ↓ PageDown</td>
-                  </tr>
-                  <tr class="border-b border-current/10">
-                    <td class="py-1.5 pr-3 opacity-80">Previous page</td>
-                    <td class="py-1.5 font-mono">Shift+Space ← ↑ PageUp</td>
-                  </tr>
-                  <tr class="border-b border-current/10">
-                    <td class="py-1.5 pr-3 opacity-80">First / last page</td>
-                    <td class="py-1.5 font-mono">Home / End</td>
-                  </tr>
-                  <tr class="border-b border-current/10">
-                    <td class="py-1.5 pr-3 opacity-80">Zoom text</td>
-                    <td class="py-1.5 font-mono">+ / -</td>
-                  </tr>
-                  <tr>
-                    <td class="py-1.5 pr-3 opacity-80">Zoom whole page</td>
-                    <td class="py-1.5 font-mono"><span id="zoomKey"></span>+ / -</td>
-                  </tr>
-                  <tr class="border-t border-current/10">
-                    <td class="py-1.5 pr-3 opacity-80">Activate BookLike</td>
-                    <td class="py-1.5 font-mono"><span id="activationShortcut">Alt+Shift+B</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="flex flex-col gap-2">
-              <p>Tips:</p>
-              <ul class="flex list-disc flex-col gap-1.5 pl-4 text-xs opacity-70">
-                <li>Activation shortcut can be changed in <em>Manage extensions</em></li>
-                <li>Double-click any word to look it up in the dictionary (English only)</li>
-                <li>Click images to zoom in</li>
-              </ul>
-            </div>
             <div class="flex flex-col items-start gap-2 border-t border-stone-300 pt-3 dark:border-stone-700">
+              <a
+                id="whatsNew"
+                href="#"
+                target="_blank"
+                rel="noopener"
+                class="flex items-center gap-2 opacity-70 hover:opacity-100 focus-visible:outline-2 focus-visible:outline-yellow-600 dark:focus-visible:outline-yellow-400"
+              >
+                <svg
+                  class="size-4 shrink-0"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M12 3 l1.8 4.7 L18.5 9.5 l-4.7 1.8 L12 16 l-1.8-4.7 L5.5 9.5 l4.7-1.8 Z" />
+                  <path d="M18 15.5 l0.8 2 l2 0.8 l-2 0.8 l-0.8 2 l-0.8-2 l-2-0.8 l2-0.8 Z" />
+                </svg>
+                What's new
+              </a>
               <a
                 id="feedbackEmail"
                 href="#"
@@ -726,7 +799,7 @@
                 Report a bug
               </a>
               <p class="opacity-50">
-                Dictionary data adapted from
+                Dictionary adapted from
                 <a
                   href="https://en.wiktionary.org"
                   target="_blank"
@@ -740,7 +813,7 @@
                   rel="noopener"
                   class="underline hover:opacity-100 focus-visible:outline-2 focus-visible:outline-yellow-600 dark:focus-visible:outline-yellow-400"
                   >CC BY-SA 4.0</a
-                >.<br />Pronunciations recorded by
+                >.<br />Pronunciations by
                 <a
                   href="https://commons.wikimedia.org"
                   target="_blank"
@@ -748,14 +821,14 @@
                   class="underline hover:opacity-100 focus-visible:outline-2 focus-visible:outline-yellow-600 dark:focus-visible:outline-yellow-400"
                   >Wikimedia Commons</a
                 >
-                contributors —
+                contributors.
                 <a
                   href="https://booklike.app/credits"
                   target="_blank"
                   rel="noopener"
                   class="underline hover:opacity-100 focus-visible:outline-2 focus-visible:outline-yellow-600 dark:focus-visible:outline-yellow-400"
-                  >full credits</a
-                >.
+                  >Full Credits</a
+                >
               </p>
             </div>
           </div>
@@ -770,81 +843,64 @@
       <div
         class="relative flex text-xs before:absolute before:inset-x-0 before:bottom-0 before:-z-1 before:h-[2px] before:bg-stone-300 dark:border-stone-700 dark:before:bg-stone-700"
       >
-        <button
-          class="theme-tab border-b-2 border-transparent px-3 py-1 select-none hover:border-current focus-visible:outline-2 focus-visible:outline-yellow-600 aria-selected:border-yellow-600 aria-selected:text-yellow-600 dark:focus-visible:outline-yellow-400 dark:aria-selected:border-yellow-400 dark:aria-selected:text-yellow-400"
-          role="tab"
-          aria-selected="true"
-          data-tab="color"
+        <h2
+          class="border-b-2 border-yellow-600 px-3 py-1 text-yellow-600 select-none dark:border-yellow-400 dark:text-yellow-400"
         >
           Color Theme
-        </button>
-        <button
-          class="theme-tab border-b-2 border-transparent px-3 py-1 select-none hover:border-current focus-visible:outline-2 focus-visible:outline-yellow-600 aria-selected:border-yellow-600 aria-selected:text-yellow-600 dark:focus-visible:outline-yellow-400 dark:aria-selected:border-yellow-400 dark:aria-selected:text-yellow-400"
-          role="tab"
-          aria-selected="false"
-          data-tab="advanced"
-        >
-          Advanced
-        </button>
+        </h2>
       </div>
       <div class="min-h-0 flex-1 overflow-y-auto overscroll-none">
-        <div id="themeTab-color" class="theme-tab-content pt-2">
-          <div class="flex flex-col gap-6">
-            <fieldset>
-              <legend class="mb-2 text-xs tracking-wider uppercase opacity-60 select-none">Interface</legend>
-              <div class="flex gap-2">
-                <label
-                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-                >
-                  <input type="radio" name="theme" value="auto" checked class="sr-only" />
-                  Auto
-                </label>
-                <label
-                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-                >
-                  <input type="radio" name="theme" value="light" class="sr-only" />
-                  Light
-                </label>
-                <label
-                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-                >
-                  <input type="radio" name="theme" value="dark" class="sr-only" />
-                  Dark
-                </label>
-              </div>
-            </fieldset>
-            <fieldset>
-              <legend class="mb-2 text-xs tracking-wider uppercase opacity-60 select-none">Display</legend>
-              <div class="flex gap-2">
-                <label
-                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-                >
-                  <input type="radio" name="display-mode" value="light" checked class="sr-only" />
-                  Light
-                </label>
-                <label
-                  class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
-                >
-                  <input type="radio" name="display-mode" value="dark" class="sr-only" />
-                  Dark
-                </label>
-              </div>
-            </fieldset>
-          </div>
-        </div>
-        <div id="themeTab-advanced" class="theme-tab-content hidden pt-2">
-          <div class="flex flex-col gap-1">
-            <div class="flex items-center justify-between gap-6 px-1 py-2">
-              <span id="lbl-contrast" class="text-sm select-none">High contrast</span>
+        <div class="flex flex-col gap-6 pt-2">
+          <fieldset>
+            <legend class="mb-2 text-xs tracking-wider uppercase opacity-60 select-none">Interface</legend>
+            <div class="flex gap-2">
               <label
-                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 relative inline-flex h-6 w-11 shrink-0 rounded-full bg-stone-200 transition-colors duration-200 has-checked:bg-stone-900 motion-reduce:duration-0 dark:bg-stone-600 dark:has-checked:bg-neutral-100"
+                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
               >
-                <input type="checkbox" name="contrast" aria-labelledby="lbl-contrast" class="peer sr-only" />
-                <span
-                  class="absolute top-0.5 left-0.5 size-5 rounded-full bg-white shadow-sm transition-transform duration-200 peer-checked:translate-x-5 motion-reduce:duration-0 dark:peer-checked:bg-stone-800"
-                ></span>
+                <input type="radio" name="theme" value="auto" checked class="sr-only" />
+                Auto
+              </label>
+              <label
+                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
+              >
+                <input type="radio" name="theme" value="light" class="sr-only" />
+                Light
+              </label>
+              <label
+                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
+              >
+                <input type="radio" name="theme" value="dark" class="sr-only" />
+                Dark
               </label>
             </div>
+          </fieldset>
+          <fieldset>
+            <legend class="mb-2 text-xs tracking-wider uppercase opacity-60 select-none">Display</legend>
+            <div class="flex gap-2">
+              <label
+                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
+              >
+                <input type="radio" name="display-mode" value="light" checked class="sr-only" />
+                Light
+              </label>
+              <label
+                class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 dark:hover:bg-stone-850 dark:hover:shadow-bevel rounded-lg px-3 py-1.5 text-sm hover:bg-white hover:shadow has-checked:bg-stone-900 has-checked:text-white dark:has-checked:bg-neutral-50 dark:has-checked:text-black"
+              >
+                <input type="radio" name="display-mode" value="dark" class="sr-only" />
+                Dark
+              </label>
+            </div>
+          </fieldset>
+          <div class="flex items-center justify-between gap-6 border-t border-current/10 px-1 pt-4 pb-1">
+            <span id="lbl-contrast" class="text-sm select-none">High contrast</span>
+            <label
+              class="focus-visible-within:outline-2 focus-visible-within:outline-yellow-600 dark:focus-visible-within:outline-yellow-400 relative inline-flex h-6 w-11 shrink-0 rounded-full bg-stone-200 transition-colors duration-200 has-checked:bg-stone-900 motion-reduce:duration-0 dark:bg-stone-600 dark:has-checked:bg-neutral-100"
+            >
+              <input type="checkbox" name="contrast" aria-labelledby="lbl-contrast" class="peer sr-only" />
+              <span
+                class="absolute top-0.5 left-0.5 size-5 rounded-full bg-white shadow-sm transition-transform duration-200 peer-checked:translate-x-5 motion-reduce:duration-0 dark:peer-checked:bg-stone-800"
+              ></span>
+            </label>
           </div>
         </div>
       </div>

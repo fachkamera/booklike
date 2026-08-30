@@ -6,6 +6,7 @@ import {
   EPUB_MAX_ARTICLE_IMAGES,
   PRINT_SANDBOX_DETECT_MS,
   PRINT_TOAST_DURATION_MS,
+  RELEASE_NOTES_URL,
   WHEEL_DELTA_BUFFER_SIZE,
   WHEEL_FRESH_GESTURE_GAP_MS,
 } from '../config'
@@ -147,6 +148,13 @@ async function mountIframe(
   return { iframe, doc }
 }
 
+/** Mac names for modifier keys; the markup carries the non-Mac label as fallback text. */
+const MAC_KEY_LABELS: Record<string, string> = { mod: 'Cmd', alt: 'Option' }
+
+const isMacPlatform = () => /Mac|iPhone|iPad/.test(navigator.userAgent)
+
+const modKeyLabel = () => (isMacPlatform() ? MAC_KEY_LABELS.mod : 'Ctrl')
+
 function populateContent(
   doc: Document,
   container: Element,
@@ -156,13 +164,18 @@ function populateContent(
   content: string,
   lang: string,
 ): void {
-  const isMac = /Mac|iPhone|iPad/.test(navigator.userAgent)
-  const zoomKey = doc.getElementById('zoomKey')
-  if (zoomKey) zoomKey.textContent = isMac ? '⌘' : 'Ctrl'
-  const activationShortcut = doc.getElementById('activationShortcut')
-  if (activationShortcut) activationShortcut.textContent = isMac ? 'Option+Shift+B' : 'Alt+Shift+B'
+  if (isMacPlatform())
+    doc.querySelectorAll<HTMLElement>('[data-key]').forEach((el) => {
+      const label = MAC_KEY_LABELS[el.dataset.key ?? '']
+      if (label) el.textContent = label
+    })
   const feedbackEmail = doc.querySelector<HTMLAnchorElement>('#feedbackEmail')
   if (feedbackEmail) feedbackEmail.href = 'mailto:' + getEmail()
+  const { version } = chrome.runtime.getManifest()
+  const aboutVersion = doc.getElementById('aboutVersion')
+  if (aboutVersion) aboutVersion.textContent = `v${version}`
+  const whatsNew = doc.querySelector<HTMLAnchorElement>('#whatsNew')
+  if (whatsNew) whatsNew.href = `${RELEASE_NOTES_URL}v${version}`
   const bookFrame = doc.getElementById('bookFrame')
   if (bookFrame) bookFrame.setAttribute('lang', lang)
   container.innerHTML = ''
@@ -657,11 +670,10 @@ export async function launchReader(
     window.parent.postMessage({ type: 'booklike-print' }, window.location.origin)
     setTimeout(() => {
       if (printFired) return
-      const isMac = /Mac|iPhone|iPad/.test(navigator.userAgent)
       const toast = doc.createElement('div')
       toast.className =
         'fixed bottom-6 left-1/2 -translate-x-1/2 rounded-xl bg-black/90 px-4 py-2.5 font-sans text-sm text-white shadow-xl z-[9999] pointer-events-none'
-      toast.textContent = `Press ${isMac ? '⌘P' : 'Ctrl+P'} to print`
+      toast.textContent = `Press ${modKeyLabel()}+P to print`
       doc.body.appendChild(toast)
       setTimeout(() => toast.remove(), PRINT_TOAST_DURATION_MS)
     }, PRINT_SANDBOX_DETECT_MS)
