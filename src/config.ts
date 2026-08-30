@@ -156,3 +156,6 @@ export const PANEL_VIEWPORT_PAD_PX = 16
 
 /** Grace period (ms) after reader activation during which a tab reload won't deactivate the reader. */
 export const READER_ACTIVATION_GRACE_MS = 3000
+
+/** Base URL for per-version release notes; the manifest version tag is appended. */
+export const RELEASE_NOTES_URL = 'https://github.com/fachkamera/booklike/releases/tag/'
