@@ -1,4 +1,5 @@
 import './types'
+import { READER_IFRAME_CSS } from './helpers'
 import { loadPrefs, PREFS_KEY, type BooklikePrefs } from './prefs'
 import { type EpubImage } from './epub'
 import { DICT_AUDIO_BASE, DICT_AUDIO_FETCH_TIMEOUT_MS, READER_ACTIVATION_GRACE_MS } from './config'
@@ -190,13 +191,13 @@ chrome.runtime.onMessage.addListener((msg: BooklikeMessage, sender, sendResponse
       .executeScript({
         target: { tabId: sender.tab.id },
         world: 'MAIN',
-        func: () => {
+        func: ((css: string) => {
           const iframe = document.createElement('iframe')
           iframe.id = 'booklike-reader'
-          iframe.style.cssText =
-            'position:fixed;top:0;left:0;width:100vw;height:100vh;border:none;z-index:2147483647;visibility:hidden;'
+          iframe.style.cssText = css + 'visibility:hidden;'
           document.body.appendChild(iframe)
-        },
+        }) as () => void,
+        args: [READER_IFRAME_CSS],
       })
       .then(() => sendResponse(null))
       .catch(() => sendResponse(null))

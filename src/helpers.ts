@@ -26,3 +26,22 @@ export function getArticleRoot(doc: Document): Element | null {
     doc.querySelector('.main')
   )
 }
+
+export const READER_IFRAME_CSS =
+  'position:fixed;inset:0;width:100%;height:100%;border:none;z-index:2147483647;'
+
+export const READER_IFRAME_GUARD_CSS = `#booklike-reader{${READER_IFRAME_CSS.split(';')
+  .filter(Boolean)
+  .map((declaration) => declaration + '!important')
+  .join(';')}}`
+
+export function guardIframeStyle(iframe: HTMLIFrameElement): void {
+  const style = document.createElement('style')
+  style.textContent = READER_IFRAME_GUARD_CSS
+  document.head.appendChild(style)
+  const baseline = iframe.style.cssText
+  new MutationObserver(() => {
+    if (iframe.style.cssText === baseline) return
+    iframe.style.cssText = baseline
+  }).observe(iframe, { attributeFilter: ['style'] })
+}
