@@ -1,5 +1,5 @@
 import type { DisplayCtx, ReaderSettings } from '../types'
-import { getEmail } from '../helpers'
+import { getEmail, guardIframeStyle } from '../helpers'
 import {
   EPUB_IMAGE_QUOTA_MONTHLY,
   EPUB_IMAGE_QUOTA_WARN_AT,
@@ -588,6 +588,7 @@ export async function launchReader(
   wrapper.style.visibility = 'hidden'
   iframe.style.visibility = ''
   clearPage(title, iframe)
+  guardIframeStyle(iframe)
   const printStyle = document.createElement('style')
   printStyle.textContent =
     '@media print{#booklike-reader{display:none!important;}#booklike-print-copy{display:block!important;}}'
